@@ -1,21 +1,7 @@
 #include "../SPPoint.h"
 #include "../SPBPriorityQueue.c"
 #include "unit_test_util.h"
-//#include "sp_list_unit_test.c"
 #include <stdbool.h>
-
-//SPBPQueue spBPQueueQuickCreate(int maxSize,double* qList){
-//	if(maxSize<0){
-//		return NULL;
-//	}
-//	SPBPQueue queue=(SPBPQueue) malloc(sizeof(*queue));
-//	if(queue==NULL){
-//		return NULL;
-//	}
-//	queue.qList=qList;
-//	queue.maxSize=maxSize;
-//	return queue;
-//}
 
 bool bpqueueCreateTest() {
 	int maxSize=5;
@@ -327,7 +313,7 @@ int main() {
 	RUN_TEST(bpqueueCreateTest);
 	RUN_TEST(bpqueueBasicCopyTest);
 	RUN_TEST(bpqueueDestroyTest);
-	RUN_TEST(testListClear);
+	RUN_TEST(bpqueueClearTest);
 	RUN_TEST(bpqueueSizeTest);
 	RUN_TEST(bpqueueMaxSizeTest);
 	RUN_TEST(bpqueueEnqueueTest);
