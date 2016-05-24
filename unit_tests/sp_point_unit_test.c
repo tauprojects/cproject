@@ -56,7 +56,7 @@ bool pointGetIndex(){
 }
 
 bool testPointDestroy() {
-	spListDestroy(NULL);
+	spPointDestroy(NULL);
 	return true;
 }
 
