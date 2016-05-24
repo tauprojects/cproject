@@ -33,8 +33,8 @@ bool bpqueueBasicCopyTest() {
 	SPBPQueue q = spBPQueueCopy(p);
 	ASSERT_TRUE(spBPQueueGetMaxSize(p) == spBPQueueGetMaxSize(q));
 	ASSERT_TRUE(spBPQueueGetMaxSize(p) == maxSize);
-	ASSERT_TRUE(spBPQueueGetSize(p) == spBPQueueGetSize(q));
-	ASSERT_TRUE(spBPQueueGetSize(p) == 0);
+	ASSERT_TRUE(spBPQueueSize(p) == spBPQueueSize(q));
+	ASSERT_TRUE(spBPQueueSize(p) == 0);
 	SPListElement e1 = spListElementCreate(1, 1.0);
 	SPListElement e2 = spListElementCreate(2, 2.0);
 	SPListElement e3 = spListElementCreate(3, 3.0);
@@ -43,9 +43,8 @@ bool bpqueueBasicCopyTest() {
 	SPBPQueue p2=spBPQueueCreate(maxSize);
 	p2->qList=list2;
 	SPBPQueue q2 = spBPQueueCopy(p2);
-	ASSERT_TRUE(spBPQueueGetSize(p2) == spBPQueueGetSize(q2));
-	ASSERT_TRUE(spBPQueueGetSize(p2) == spListGetSize(list2));
-	ASSERT_TRUE(spBPQueueGetSize(q2) == spListGetSize(list2));
+	ASSERT_TRUE(spBPQueueSize(p2) == spBPQueueSize(q2));
+	ASSERT_TRUE(spBPQueueSize(q2) == spListGetSize(list2));
 	p2->qList->current=p2->qList->head;
 	q2->qList->current=q2->qList->head;
 	for(int i=0;i<spListGetSize(list2);i++){
@@ -77,14 +76,14 @@ bool bpqueueClearTest() {
 	SPList list2 = quickList(4, e1, e2, e3, e4);
 	int maxSize=5;
 	SPBPQueue p = spBPQueueCreate(maxSize);
-	ASSERT_TRUE(spBPQueueGetSize(p) == 0);
+	ASSERT_TRUE(spBPQueueSize(p) == 0);
 	spBPQueueClear(p);
-	ASSERT_TRUE(spBPQueueGetSize(p) == 0);
+	ASSERT_TRUE(spBPQueueSize(p) == 0);
 	p->qList=list2;
 	SPBPQueue q = spBPQueueCopy(p);
 	spBPQueueClear(q);
-	ASSERT_TRUE(spBPQueueGetSize(q) == 0);
-	ASSERT_TRUE(spBPQueueGetSize(p) == spListGetSize(list2));
+	ASSERT_TRUE(spBPQueueSize(q) == 0);
+	ASSERT_TRUE(spBPQueueSize(p) == spListGetSize(list2));
 	spListDestroy(list2);
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
@@ -103,9 +102,9 @@ bool bpqueueSizeTest() {
 	SPList list2 = quickList(4, e1, e2, e3, e4);
 	int maxSize=5;
 	SPBPQueue p = spBPQueueCreate(maxSize);
-	ASSERT_TRUE(spBPQueueGetSize(p) == 0);
+	ASSERT_TRUE(spBPQueueSize(p) == 0);
 	p->qList=list2;
-	ASSERT_TRUE(spBPQueueGetSize(p) == spListGetSize(list2));
+	ASSERT_TRUE(spBPQueueSize(p) == spListGetSize(list2));
 	spListDestroy(list2);
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
@@ -205,8 +204,8 @@ bool bpqueuePeekTest() {
 	spBPQueueEnqueue(p,e2);
 	spBPQueueEnqueue(p,e3);
 	spBPQueueEnqueue(p,e4);
-	ASSERT_TRUE(spListElementcompare(spBPQueuePeek(p),e5));
-	ASSERT_FALSE(spListElementcompare(spBPQueuePeek(p),e4));
+	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e5));
+	ASSERT_FALSE(spListElementCompare(spBPQueuePeek(p),e4));
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
 	spListElementDestroy(e3);
@@ -229,8 +228,8 @@ bool bpqueuePeekLastTest() {
 	spBPQueueEnqueue(p,e2);
 	spBPQueueEnqueue(p,e3);
 	spBPQueueEnqueue(p,e4);
-	ASSERT_TRUE(spListElementcompare(spBPQueuePeekLast(p),e1));
-	ASSERT_FALSE(spListElementcompare(spBPQueuePeekLast(p),e5));
+	ASSERT_TRUE(spListElementCompare(spBPQueuePeekLast(p),e1));
+	ASSERT_FALSE(spListElementCompare(spBPQueuePeekLast(p),e5));
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
 	spListElementDestroy(e3);
