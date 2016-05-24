@@ -5,9 +5,10 @@
  *      Author: MatanGizunterman and LironGazit
  */
 
-#include <SPPoint.h>
+#include "SPPoint.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 struct sp_point_t{
 	double* data;
@@ -20,14 +21,14 @@ SPPoint spPointCreate(double* data, int dim, int index){
 		return NULL;
 	}
 	SPPoint point;
-	point.data=(double*)malloc(sizeof(double)*dim);
-	if(point.data==NULL){
+	point->data=(double*)malloc(sizeof(double)*dim);
+	if(point->data==NULL){
 		return NULL;
 	}
-	point.index=index;
-	point.dim=dim;
+	point->index=index;
+	point->dim=dim;
 	for(int i=0;i<dim;i++){
-		point.data[i]=data[i];
+		point->data[i]=data[i];
 	}
 	return point;
 }
@@ -44,21 +45,21 @@ SPPoint spPointCopy(SPPoint source){
 }
 
 void spPointDestroy(SPPoint point){
-	free(point.data);
+	free(point->data);
 }
 
 int spPointGetDimension(SPPoint point){
-	return point.data;
+	return point->data;
 }
 
 int spPointGetIndex(SPPoint point){
-	return point.index;
+	return point->index;
 }
 
 double spPointGetAxisCoor(SPPoint point, int axis){
-	assert(axis<point.dim);
+	assert(axis<point->dim);
 	assert(point!=NULL);
-	return point.data[axis];
+	return point->data[axis];
 }
 
 double spPointL2SquaredDistance(SPPoint p, SPPoint q){
@@ -69,7 +70,7 @@ double spPointL2SquaredDistance(SPPoint p, SPPoint q){
 	assert(dimP==dimQ);
 	double sum=0,temp;
 	for(int i=0;i<dimP;i++){
-		temp=spPointGetAxisCoor(p)-spPointGetAxisCoor(q);
+		temp=spPointGetAxisCoor(p,i)-spPointGetAxisCoor(q,i);
 		temp=temp*temp;
 		sum+=temp;
 	}
