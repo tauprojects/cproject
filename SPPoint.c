@@ -40,6 +40,7 @@ SPPoint spPointCopy(SPPoint source){
 
 void spPointDestroy(SPPoint point){
 	free(point->data);
+	free(point);
 }
 
 int spPointGetDimension(SPPoint point){
