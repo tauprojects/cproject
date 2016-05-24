@@ -20,7 +20,7 @@ SPPoint spPointCreate(double* data, int dim, int index){
 	if(dim<=0 || index<0 || data==NULL){
 		return NULL;
 	}
-	SPPoint point;
+	SPPoint point=NULL;
 	point->data=(double*)malloc(sizeof(double)*dim);
 	if(point->data==NULL){
 		return NULL;
@@ -49,7 +49,7 @@ void spPointDestroy(SPPoint point){
 }
 
 int spPointGetDimension(SPPoint point){
-	return point->data;
+	return point->dim;
 }
 
 int spPointGetIndex(SPPoint point){
