@@ -214,7 +214,7 @@ bool spBPQueueIsEmpty(SPBPQueue source){
 
 bool spBPQueueIsFull(SPBPQueue source){
 	assert(source!=NULL);
-	return (spBPQueueSize(source)==spBPQueueMaxSize(source));
+	return (spBPQueueSize(source)==spBPQueueGetMaxSize(source));
 }
 
 

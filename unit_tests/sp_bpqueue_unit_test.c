@@ -2,6 +2,21 @@
 #include "../SPBPriorityQueue.c"
 #include "unit_test_util.h"
 #include <stdbool.h>
+#include "../SPListElement.h"
+#include "../SPList.h"
+#include <stdarg.h>
+
+
+static SPList quickList(int size, ...) {
+	va_list items;
+	SPList list = spListCreate();
+	va_start(items, size);
+	for (int i = 0; i < size; i++) {
+		spListInsertLast(list, va_arg(items, SPListElement));
+	}
+	va_end(items);
+	return list;
+}
 
 bool bpqueueCreateTest() {
 	int maxSize=5;
