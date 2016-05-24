@@ -3,6 +3,16 @@
 #include <stdbool.h>
 
 //Checks if copy Works
+bool pointBasicCreate() {
+	double data[2] = { 1.0, 1.0 };
+	int dim = 2;
+	int index = 1;
+	SPPoint p = spPointCreate(data, dim, index);
+	ASSERT_TRUE(p!=NULL);
+	spListElementDestroy(p);
+	return true;
+}
+
 bool pointBasicCopyTest() {
 	double data[2] = { 1.0, 1.0 };
 	int dim = 2;
@@ -73,6 +83,7 @@ bool pointGetAxisCoor() {
 }
 
 int main() {
+	RUN_TEST(pointBasicCreate);
 	RUN_TEST(pointBasicCopyTest);
 	RUN_TEST(pointGetDimension);
 	RUN_TEST(pointGetIndex);
