@@ -9,7 +9,7 @@ bool pointBasicCreate() {
 	int index = 1;
 	SPPoint p = spPointCreate(data, dim, index);
 	ASSERT_TRUE(p!=NULL);
-	spListElementDestroy(p);
+	spPointDestroy(p);
 	return true;
 }
 
