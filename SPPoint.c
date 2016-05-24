@@ -20,7 +20,7 @@ SPPoint spPointCreate(double* data, int dim, int index){
 	if(dim<=0 || index<0 || data==NULL){
 		return NULL;
 	}
-	SPPoint point=(SPPoint){.data={1.1}, .dim=dim, .index=index};
+	SPPoint point=(SPPoint){data,dim,index};
 	return point;
 }
 
