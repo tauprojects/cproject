@@ -21,7 +21,10 @@ SPPoint spPointCreate(double* data, int dim, int index){
 		return NULL;
 	}
 	SPPoint point=(SPPoint) malloc(sizeof(*point));
-	point->data=data;
+	point->data=(double*) malloc(sizeof(double)*dim);
+	for(int i=0;i<dim;i++){
+		point->data[i]=data[i];
+	}
 	point->dim=dim;
 	point->index=index;
 	return point;
@@ -31,10 +34,11 @@ SPPoint spPointCopy(SPPoint source){
 	assert(source!=NULL);
 	int dim=spPointGetDimension(source);
 	int index=spPointGetIndex(source);
-	double* data=(double*)malloc(sizeof(double)*dim);
-	for(int i=0;i<dim;i++){
-		data[i]=spPointGetAxisCoor(source,i);
-	}
+//	double* data=(double*)malloc(sizeof(double)*dim);
+//	for(int i=0;i<dim;i++){
+//		data[i]=spPointGetAxisCoor(source,i);
+//	}
+	double* data=source->data;
 	return spPointCreate(data, dim,index);
 }
 
