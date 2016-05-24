@@ -1,7 +1,7 @@
 #include "../SPPoint.h"
 #include "../SPBPriorityQueue.c"
 #include "unit_test_util.h"
-#include "sp_list_unit_test.c"
+//#include "sp_list_unit_test.c"
 #include <stdbool.h>
 
 //SPBPQueue spBPQueueQuickCreate(int maxSize,double* qList){
