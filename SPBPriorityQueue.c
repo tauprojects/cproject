@@ -8,7 +8,7 @@
 #include "SPList.c"
 #include <stdbool.h>
 #include <stdio.h>
-#include "SPListElement.c"
+#include "SPListElement.h"
 
 struct sp_bp_queue_t{
 	int maxSize;
