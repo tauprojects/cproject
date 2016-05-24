@@ -24,9 +24,6 @@ SPPoint spPointCreate(double* data, int dim, int index){
 	point->data=data;
 	point->index=index;
 	point->dim=dim;
-	for(int i=0;i<dim;i++){
-		point->data[i]=data[i];
-	}
 	return point;
 }
 
