@@ -68,7 +68,7 @@ bool pointGetAxisCoor() {
 	ASSERT_TRUE(spPointGetAxisCoor(p,0)==data[0]);
 	ASSERT_TRUE(spPointGetAxisCoor(p,1)==data[1]);
 	ASSERT_FALSE(spPointGetAxisCoor(p,1)==data[0]);
-	spListDestroy(p);
+	spPointDestroy(p);
 	return true;
 }
 
