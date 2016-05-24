@@ -1,7 +1,21 @@
 #include "../SPPoint.h"
-#include "../SPBPriorityQueue.h"
+#include "../SPBPriorityQueue.c"
 #include "unit_test_util.h"
+#include "sp_list_unit_test.c"
 #include <stdbool.h>
+
+//SPBPQueue spBPQueueQuickCreate(int maxSize,double* qList){
+//	if(maxSize<0){
+//		return NULL;
+//	}
+//	SPBPQueue queue=(SPBPQueue) malloc(sizeof(*queue));
+//	if(queue==NULL){
+//		return NULL;
+//	}
+//	queue.qList=qList;
+//	queue.maxSize=maxSize;
+//	return queue;
+//}
 
 bool bpqueueCreateTest() {
 	int maxSize=5;
@@ -25,13 +39,18 @@ bool bpqueueBasicCopyTest() {
 	SPListElement e3 = spListElementCreate(3, 3.0);
 	SPListElement e4 = spListElementCreate(4, 4.0);
 	SPList list2 = quickList(4, e1, e2, e3, e4);
-	p->qList=list2;
-	SPBPQueue q2 = spBPQueueCopy(p);
-	ASSERT_TRUE(spBPQueueGetSize(p) == spBPQueueGetSize(q2));
-	ASSERT_TRUE(spBPQueueGetSize(p) == spListGetSize(list2));
+	SPBPQueue p2=spBPQueueCreate(maxSize);
+	p2->qList=list2;
+	SPBPQueue q2 = spBPQueueCopy(p2);
+	ASSERT_TRUE(spBPQueueGetSize(p2) == spBPQueueGetSize(q2));
+	ASSERT_TRUE(spBPQueueGetSize(p2) == spListGetSize(list2));
 	ASSERT_TRUE(spBPQueueGetSize(q2) == spListGetSize(list2));
+	p2->qList->current=p2->qList->head;
+	q2->qList->current=q2->qList->head;
 	for(int i=0;i<spListGetSize(list2);i++){
-		ASSERT_TRUE(list2(i)==p->qList[i]);
+		ASSERT_TRUE(spListElementCompare(q2->qList->current->data,p2->qList->current->data));
+		spListGetNext(q2->qList);
+		spListGetNext(p2->qList);
 	}
 	spListDestroy(list2);
 	spListElementDestroy(e1);
@@ -40,6 +59,7 @@ bool bpqueueBasicCopyTest() {
 	spListElementDestroy(e4);
 	spBPQueueDestroy(p);
 	spBPQueueDestroy(q);
+	spBPQueueDestroy(p2);
 	return true;
 }
 
