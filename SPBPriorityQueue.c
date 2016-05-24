@@ -30,6 +30,9 @@ SPBPQueue spBPQueueCopy(SPBPQueue source){
 }
 
 void spBPQueueDestroy(SPBPQueue source){
+	if(source!=NULL){
+		return;
+	}
 	spListDestroy(source.qList);
 }
 
