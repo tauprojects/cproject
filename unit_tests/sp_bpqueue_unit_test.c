@@ -1,5 +1,5 @@
 #include "../SPPoint.h"
-#include "../SPBPriorityQueue.c"
+#include "../SPBPriorityQueue.h"
 #include "unit_test_util.h"
 #include <stdbool.h>
 //#include "../SPListElement.h"
@@ -7,15 +7,15 @@
 #include <stdarg.h>
 
 
-static SPList quickList(int size, ...) {
+SPBPQueue quickBPQ(int maxSize,int size, ...) {
 	va_list items;
-	SPList list = spListCreate();
+	SPBPQueue queue = spBPQueueCreate(maxSize);
 	va_start(items, size);
 	for (int i = 0; i < size; i++) {
-		spListInsertLast(list, va_arg(items, SPListElement));
+		spBPQueueEnqueue(queue, va_arg(items, SPListElement));
 	}
 	va_end(items);
-	return list;
+	return queue;
 }
 
 bool bpqueueCreateTest() {
@@ -29,6 +29,7 @@ bool bpqueueCreateTest() {
 bool bpqueueBasicCopyTest() {
 	ASSERT_TRUE(spBPQueueCopy(NULL) == NULL);
 	int maxSize=5;
+	int listSize = 4;
 	SPBPQueue p = spBPQueueCreate(maxSize);
 	SPBPQueue q = spBPQueueCopy(p);
 	ASSERT_TRUE(spBPQueueGetMaxSize(p) == spBPQueueGetMaxSize(q));
@@ -39,20 +40,15 @@ bool bpqueueBasicCopyTest() {
 	SPListElement e2 = spListElementCreate(2, 2.0);
 	SPListElement e3 = spListElementCreate(3, 3.0);
 	SPListElement e4 = spListElementCreate(4, 4.0);
-	SPList list2 = quickList(4, e1, e2, e3, e4);
-	SPBPQueue p2=spBPQueueCreate(maxSize);
-	p2->qList=list2;
+	SPBPQueue p2 = quickBPQ(maxSize,listSize, e1, e2, e3, e4);
 	SPBPQueue q2 = spBPQueueCopy(p2);
 	ASSERT_TRUE(spBPQueueSize(p2) == spBPQueueSize(q2));
-	ASSERT_TRUE(spBPQueueSize(q2) == spListGetSize(list2));
-	p2->qList->current=p2->qList->head;
-	q2->qList->current=q2->qList->head;
-	for(int i=0;i<spListGetSize(list2);i++){
-		ASSERT_TRUE(spListElementCompare(q2->qList->current->data,p2->qList->current->data));
-		spListGetNext(q2->qList);
-		spListGetNext(p2->qList);
+	ASSERT_TRUE(spBPQueueSize(q2) == listSize);
+	for(int i=0;i<listSize;i++){ //Itration Warinig with size
+		ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p2),spBPQueuePeek(q2)));
+		spBPQueueDequeue(p2);
+		spBPQueueDequeue(q2);
 	}
-	spListDestroy(list2);
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
 	spListElementDestroy(e3);
@@ -60,6 +56,7 @@ bool bpqueueBasicCopyTest() {
 	spBPQueueDestroy(p);
 	spBPQueueDestroy(q);
 	spBPQueueDestroy(p2);
+	spBPQueueDestroy(q2);
 	return true;
 }
 
@@ -73,24 +70,16 @@ bool bpqueueClearTest() {
 	SPListElement e2 = spListElementCreate(2, 2.0);
 	SPListElement e3 = spListElementCreate(3, 3.0);
 	SPListElement e4 = spListElementCreate(4, 4.0);
-	SPList list2 = quickList(4, e1, e2, e3, e4);
 	int maxSize=5;
-	SPBPQueue p = spBPQueueCreate(maxSize);
-	ASSERT_TRUE(spBPQueueSize(p) == 0);
+	int listSize = 4;
+	SPBPQueue p = quickBPQ(maxSize,listSize, e1, e2, e3, e4);
 	spBPQueueClear(p);
 	ASSERT_TRUE(spBPQueueSize(p) == 0);
-	p->qList=list2;
-	SPBPQueue q = spBPQueueCopy(p);
-	spBPQueueClear(q);
-	ASSERT_TRUE(spBPQueueSize(q) == 0);
-	ASSERT_TRUE(spBPQueueSize(p) == spListGetSize(list2));
-	spListDestroy(list2);
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
 	spListElementDestroy(e3);
 	spListElementDestroy(e4);
 	spBPQueueDestroy(p);
-	spBPQueueDestroy(q);
 	return true;
 }
 
@@ -99,18 +88,18 @@ bool bpqueueSizeTest() {
 	SPListElement e2 = spListElementCreate(2, 2.0);
 	SPListElement e3 = spListElementCreate(3, 3.0);
 	SPListElement e4 = spListElementCreate(4, 4.0);
-	SPList list2 = quickList(4, e1, e2, e3, e4);
+	int listSize=4;
 	int maxSize=5;
-	SPBPQueue p = spBPQueueCreate(maxSize);
-	ASSERT_TRUE(spBPQueueSize(p) == 0);
-	p->qList=list2;
-	ASSERT_TRUE(spBPQueueSize(p) == spListGetSize(list2));
-	spListDestroy(list2);
+	SPBPQueue q = spBPQueueCreate(maxSize);
+	ASSERT_TRUE(spBPQueueSize(q) == 0);
+	SPBPQueue p = quickBPQ(maxSize,listSize, e1, e2, e3, e4);
+	ASSERT_TRUE(spBPQueueSize(p) == listSize);
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
 	spListElementDestroy(e3);
 	spListElementDestroy(e4);
 	spBPQueueDestroy(p);
+	spBPQueueDestroy(q);
 	return true;
 }
 
@@ -130,24 +119,20 @@ bool bpqueueEnqueueTest() {
 	int maxSize=5;
 	SPBPQueue p = spBPQueueCreate(maxSize);
 	ASSERT_TRUE(spBPQueueEnqueue(p,e1)==SP_BPQUEUE_SUCCESS);
-	ASSERT_TRUE(p->qList->head->data->value==e1->value);
-	ASSERT_TRUE(p->qList->tail->data->value==e1->value);
+	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e1));
 	ASSERT_TRUE(spBPQueueEnqueue(p,e2)==SP_BPQUEUE_SUCCESS);
-	ASSERT_TRUE(p->qList->head->data->value==e2->value);
-	ASSERT_TRUE(p->qList->tail->data->value==e1->value);
+	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e2));
 	ASSERT_TRUE(spBPQueueEnqueue(p,e3)==SP_BPQUEUE_SUCCESS);
-	ASSERT_TRUE(p->qList->head->data->value==e3->value);
-	ASSERT_TRUE(p->qList->tail->data->value==e1->value);
+	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e3));
 	ASSERT_TRUE(spBPQueueEnqueue(p,e4)==SP_BPQUEUE_SUCCESS);
-	ASSERT_TRUE(p->qList->head->data->value==e3->value);
-	ASSERT_TRUE(p->qList->tail->data->value==e4->value);
+	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e3));
+	ASSERT_TRUE(spBPQueueEnqueue(p,NULL)==SP_BPQUEUE_INVALID_ARGUMENT);
 	ASSERT_TRUE(spBPQueueEnqueue(NULL,e1)==SP_BPQUEUE_INVALID_ARGUMENT);
 	ASSERT_TRUE(spBPQueueEnqueue(p,e1)==SP_BPQUEUE_SUCCESS);
 	ASSERT_TRUE(spBPQueueEnqueue(p,e2)==SP_BPQUEUE_FULL);
-	ASSERT_TRUE(p->qList->head->data->value==e1->value);
+	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e3));
 	ASSERT_TRUE(spBPQueueEnqueue(p,e4)==SP_BPQUEUE_FULL);
-	ASSERT_TRUE(p->qList->head->data->value==e1->value);
-	ASSERT_TRUE(spBPQueueEnqueue(p,NULL)==SP_BPQUEUE_INVALID_ARGUMENT);
+	// Index Sort Check + Validate elemnts in place
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
 	spListElementDestroy(e3);
@@ -165,6 +150,7 @@ bool bpqueueDqueueTest() {
 	int maxSize=5;
 	SPBPQueue p = spBPQueueCreate(maxSize);
 	ASSERT_TRUE(spBPQueueDequeue(NULL)==SP_BPQUEUE_INVALID_ARGUMENT);
+	//Replace Enqeue with quick bpq
 	ASSERT_TRUE(spBPQueueDequeue(p)==SP_BPQUEUE_EMPTY);
 	ASSERT_TRUE(spBPQueueEnqueue(p,e1)==SP_BPQUEUE_SUCCESS);
 	ASSERT_TRUE(spBPQueueEnqueue(p,eMin)==SP_BPQUEUE_SUCCESS);
@@ -172,13 +158,13 @@ bool bpqueueDqueueTest() {
 	ASSERT_TRUE(spBPQueueEnqueue(p,e3)==SP_BPQUEUE_SUCCESS);
 	ASSERT_TRUE(spBPQueueEnqueue(p,e4)==SP_BPQUEUE_SUCCESS);
 	ASSERT_TRUE(spBPQueueDequeue(p)==SP_BPQUEUE_SUCCESS);
-	ASSERT_TRUE(p->qList->head->data->value==e3->value);
+	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e3));
 	ASSERT_TRUE(spBPQueueDequeue(p)==SP_BPQUEUE_SUCCESS);
-	ASSERT_TRUE(p->qList->head->data->value==e2->value);
+	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e2));
 	ASSERT_TRUE(spBPQueueDequeue(p)==SP_BPQUEUE_SUCCESS);
-	ASSERT_TRUE(p->qList->head->data->value==e4->value);
+	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e4));
 	ASSERT_TRUE(spBPQueueDequeue(p)==SP_BPQUEUE_SUCCESS);
-	ASSERT_TRUE(p->qList->head->data->value==e1->value);
+	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e1));
 	ASSERT_TRUE(spBPQueueDequeue(p)==SP_BPQUEUE_SUCCESS);
 	ASSERT_TRUE(spBPQueueDequeue(p)==SP_BPQUEUE_EMPTY);
 	spListElementDestroy(e1);
@@ -252,8 +238,8 @@ bool bpqueueMinValueTest() {
 	spBPQueueEnqueue(p,e2);
 	spBPQueueEnqueue(p,e3);
 	spBPQueueEnqueue(p,e4);
-	ASSERT_TRUE(spBPQueueMinValue(p)==e5->value);
-	ASSERT_FALSE(spBPQueueMinValue(p)==e4->value);
+	ASSERT_TRUE(spBPQueueMinValue(p)==spListElementGetValue(e5));
+	ASSERT_FALSE(spBPQueueMinValue(p)==spListElementGetValue(e4));
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
 	spListElementDestroy(e3);
@@ -276,8 +262,8 @@ bool bpqueueMaxValueTest() {
 	spBPQueueEnqueue(p,e2);
 	spBPQueueEnqueue(p,e3);
 	spBPQueueEnqueue(p,e4);
-	ASSERT_TRUE(spBPQueueMaxValue(p)==e1->value);
-	ASSERT_FALSE(spBPQueueMaxValue(p)==e4->value);
+	ASSERT_TRUE(spBPQueueMaxValue(p)==spListElementGetValue(e1));
+	ASSERT_FALSE(spBPQueueMaxValue(p)==spListElementGetValue(e2));
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
 	spListElementDestroy(e3);

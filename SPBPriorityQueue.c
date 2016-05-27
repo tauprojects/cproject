@@ -5,10 +5,12 @@
  *      Author: lirongazit
  */
 #include "SPBPriorityQueue.h"
-#include "SPList.c"
+#include "SPList.h"
 #include <stdbool.h>
 #include <stdio.h>
-#include "SPListElement.h"
+#include <assert.h>
+#include <stdlib.h>
+//#include "SPListElement.h"
 
 struct sp_bp_queue_t{
 	int maxSize;
@@ -64,6 +66,12 @@ int spBPQueueGetMaxSize(SPBPQueue source){
 	return source->maxSize;
 }
 
+void spBPQsetTailAsCurrent(SPList qlist){
+	spListGetFirst(qlist); //Function returning unused element.
+	for(int i=0; i<spListGetSize(qlist)-1;i++){
+		spListGetNext(qlist);	    //Function returning unused element.
+	}
+}
 SP_BPQUEUE_MSG spBPQueueEnqueue(SPBPQueue source, SPListElement element){
 	if(source==NULL || element==NULL){
 		return SP_BPQUEUE_INVALID_ARGUMENT;
@@ -74,8 +82,13 @@ SP_BPQUEUE_MSG spBPQueueEnqueue(SPBPQueue source, SPListElement element){
 			return SP_BPQUEUE_FULL;
 		}
 		else if(spListElementGetValue(element)==spBPQueueMaxValue(source)){
-			if(spListElementGetIndex(element) < source->qList->tail->data->index){
-				source->qList->current=source->qList->tail;
+//			spListGetFirst(source->qList); //Function returning unused element.
+//			for(int i=0; i<spBPQueueSize(source)-1;i++){
+//				spListGetNext(source->qList);	    //Function returning unused element.
+//			}
+			spBPQsetTailAsCurrent(source->qList);
+			if(spListElementGetIndex(element) < spListElementGetIndex(spListGetCurrent(source->qList))){
+		//		source->qList->current=source->qList->tail; removied due to current allready tail.
 				spListRemoveCurrent(source->qList);
 				isFull=true;
 			}
@@ -84,7 +97,7 @@ SP_BPQUEUE_MSG spBPQueueEnqueue(SPBPQueue source, SPListElement element){
 			}
 		}
 		else{
-			source->qList->current=source->qList->tail;
+			spBPQsetTailAsCurrent(source->qList);
 			spListRemoveCurrent(source->qList);
 			isFull=true;
 		}
@@ -128,12 +141,12 @@ SP_BPQUEUE_MSG spBPQueueEnqueue(SPBPQueue source, SPListElement element){
 			}
 		}
 	}
-	source->qList->current=source->qList->head;
+	spListGetFirst(source->qList);
 	while(spListElementGetValue(spListGetCurrent(source->qList))<spListElementGetValue(element)){
 		spListGetNext(source->qList);
 	}
 	if(spListElementGetValue(spListGetCurrent(source->qList))==spListElementGetValue(element)){
-		if(spListElementGetIndex(element) < source->qList->current->data->index){
+		if(spListElementGetIndex(element) < spListElementGetIndex(spListGetCurrent(source->qList))){
 			msg=spListInsertBeforeCurrent(source->qList,element);
 		}
 		else{
@@ -168,7 +181,7 @@ SP_BPQUEUE_MSG spBPQueueDequeue(SPBPQueue source){
 	if(spBPQueueIsEmpty(source)){
 		return SP_BPQUEUE_EMPTY;
 	}
-	source->qList->current=source->qList->head;
+	spListGetFirst(source->qList);
 	SP_LIST_MSG msg=spListRemoveCurrent(source->qList);
 	if(msg==SP_LIST_NULL_ARGUMENT){
 		return SP_BPQUEUE_INVALID_ARGUMENT;
@@ -183,22 +196,24 @@ SP_BPQUEUE_MSG spBPQueueDequeue(SPBPQueue source){
 
 SPListElement spBPQueuePeek(SPBPQueue source){
 	assert(source!=NULL);
-	return spListElementCopy(source->qList->head->data);
+	return spListElementCopy(spListGetFirst(source->qList));
 }
 
 SPListElement spBPQueuePeekLast(SPBPQueue source){
 	assert(source!=NULL);
-		return spListElementCopy(source->qList->tail->data);
+	spBPQsetTailAsCurrent(source->qList);
+	return spListElementCopy(spListGetCurrent(source->qList));
 }
 
 double spBPQueueMinValue(SPBPQueue source){
 	assert(source!=NULL);
-	return (source->qList->head->data->value);
+	return (spListElementGetValue(spListGetFirst(source->qList)));
 }
 
 double spBPQueueMaxValue(SPBPQueue source){
 	assert(source!=NULL);
-		return (source->qList->tail->data->value);
+	spBPQsetTailAsCurrent(source->qList);
+	return (spListElementGetValue(spListGetCurrent(source->qList)));
 }
 
 bool spBPQueueIsEmpty(SPBPQueue source){
@@ -215,6 +230,10 @@ bool spBPQueueIsEmpty(SPBPQueue source){
 bool spBPQueueIsFull(SPBPQueue source){
 	assert(source!=NULL);
 	return (spBPQueueSize(source)==spBPQueueGetMaxSize(source));
+}
+
+SPList spBPQueueGetList(SPBPQueue source){
+	return source->qList;
 }
 
 
