@@ -30,7 +30,7 @@ void printB(SPBPQueue source){
 		spBPQueueDequeue(source);
 	}
    printf("\n size is %d \n", spBPQueueSize(source));
-   fflush(NULL)
+   fflush(NULL);
 }
 bool bpqueueCreateTest() {
 	int maxSize=5;
@@ -232,7 +232,7 @@ bool bpqueuePeekLastTest() {
 	spBPQueueEnqueue(p,e3);
 	spBPQueueEnqueue(p,e4);
 	fflush(NULL);
-	printf("Im In PEEK \n");
+	printf("Im In PEEK LAST \n");
 	fflush(NULL);
 	printB(p);
 	ASSERT_TRUE(spListElementCompare(spBPQueuePeekLast(p),e1));
