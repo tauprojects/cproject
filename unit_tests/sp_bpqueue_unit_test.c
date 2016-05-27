@@ -21,8 +21,11 @@ SPBPQueue quickBPQ(int maxSize,int size, ...) {
 void printB(SPBPQueue source){
 	    printf("size is %d \n", spBPQueueSize(source));
 	for(int i=0;i<spBPQueueSize(source);i++){ //Itration Warinig with size
+		fflush(NULL);
 		printf("Value is %f ", spListElementGetValue(spBPQueuePeek(source)));
+		fflush(NULL);
 		printf("index is is %d \n", spListElementGetIndex(spBPQueuePeek(source)));
+		fflush(NULL);
 		spBPQueueDequeue(source);
 	}
 }
