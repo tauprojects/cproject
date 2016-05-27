@@ -2,7 +2,7 @@ CC = gcc
 OBJS = sp_bpqueue_unit_test.o SPBPriorityQueue.o SPList.o SPListElement.o
 EXEC = sp_bpqueue_unit_test
 TESTS_DIR = ./unit_tests
-COMP_FLAG = -std=c99 -Wall -Wextra \
+COMP_FLAG = -std=c99 -g -Wall -Wextra \
 -Werror -pedantic-errors
 
 $(EXEC): $(OBJS)
