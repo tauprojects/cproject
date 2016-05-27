@@ -82,13 +82,8 @@ SP_BPQUEUE_MSG spBPQueueEnqueue(SPBPQueue source, SPListElement element){
 			return SP_BPQUEUE_FULL;
 		}
 		else if(spListElementGetValue(element)==spBPQueueMaxValue(source)){
-//			spListGetFirst(source->qList); //Function returning unused element.
-//			for(int i=0; i<spBPQueueSize(source)-1;i++){
-//				spListGetNext(source->qList);	    //Function returning unused element.
-//			}
 			spBPQsetTailAsCurrent(source->qList);
 			if(spListElementGetIndex(element) < spListElementGetIndex(spListGetCurrent(source->qList))){
-		//		source->qList->current=source->qList->tail; removied due to current allready tail.
 				spListRemoveCurrent(source->qList);
 				isFull=true;
 			}

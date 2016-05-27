@@ -18,6 +18,14 @@ SPBPQueue quickBPQ(int maxSize,int size, ...) {
 	return queue;
 }
 
+void printB(SPBPQueue source){
+	for(int i=0;i<spBPQueueSize(source);i++){ //Itration Warinig with size
+		printf("Number if itrat is %d ",i);
+		printf("Value is %f", spListElementGetValue(spBPQueuePeek(source)));
+		printf("index is is %d", spListElementGetIndex(spBPQueuePeek(source)));
+		spBPQueueDequeue(source);
+	}
+}
 bool bpqueueCreateTest() {
 	int maxSize=5;
 	SPBPQueue p = spBPQueueCreate(maxSize);
@@ -190,6 +198,7 @@ bool bpqueuePeekTest() {
 	spBPQueueEnqueue(p,e2);
 	spBPQueueEnqueue(p,e3);
 	spBPQueueEnqueue(p,e4);
+	printB(p);
 	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e5));
 	ASSERT_FALSE(spListElementCompare(spBPQueuePeek(p),e4));
 	spListElementDestroy(e1);
