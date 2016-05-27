@@ -5,7 +5,7 @@
 #include "../SPLogger.h"
 
 
-// This is a helper function which checks if two files are identical
+//This is a helper function which checks if two files are identical
 static bool identicalFiles(const char* fname1, const char* fname2) {
 	FILE *fp1, *fp2;
 	fp1 = fopen(fname1, "r");
@@ -97,7 +97,6 @@ static bool basicLoggerInfoTest() {
 	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
 	return true;
 }
-
 
 //Will be printed at any level
 static bool basicLoggerMsgTest() {

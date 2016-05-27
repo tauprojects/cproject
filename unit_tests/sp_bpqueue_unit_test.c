@@ -2,10 +2,8 @@
 #include "../SPBPriorityQueue.h"
 #include "unit_test_util.h"
 #include <stdbool.h>
-//#include "../SPListElement.h"
 #include "../SPList.h"
 #include <stdarg.h>
-
 
 SPBPQueue quickBPQ(int maxSize,int size, ...) {
 	va_list items;
@@ -18,20 +16,6 @@ SPBPQueue quickBPQ(int maxSize,int size, ...) {
 	return queue;
 }
 
-void printB(SPBPQueue source){
-	int size = spBPQueueSize(source);
-	printf("size is %d \n", size);
-   for(int i=0;i<size;i++){ //Itration Warinig with size
-		fflush(NULL);
-		printf("Value is %f ", spListElementGetValue(spBPQueuePeek(source)));
-		fflush(NULL);
-		printf("index is is %d \n", spListElementGetIndex(spBPQueuePeek(source)));
-		fflush(NULL);
-		spBPQueueDequeue(source);
-	}
-   printf("\n size is %d \n", spBPQueueSize(source));
-   fflush(NULL);
-}
 bool bpqueueCreateTest() {
 	int maxSize=5;
 	SPBPQueue p = spBPQueueCreate(maxSize);
@@ -57,7 +41,7 @@ bool bpqueueBasicCopyTest() {
 	SPBPQueue q2 = spBPQueueCopy(p2);
 	ASSERT_TRUE(spBPQueueSize(p2) == spBPQueueSize(q2));
 	ASSERT_TRUE(spBPQueueSize(q2) == listSize);
-	for(int i=0;i<listSize;i++){ //Itration Warinig with size
+	for(int i=0;i<listSize;i++){
 		ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p2),spBPQueuePeek(q2))==0);
 		spBPQueueDequeue(p2);
 		spBPQueueDequeue(q2);
@@ -145,7 +129,7 @@ bool bpqueueEnqueueTest() {
 	ASSERT_TRUE(spBPQueueEnqueue(p,e2)==SP_BPQUEUE_FULL);
 	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e3)==0);
 	ASSERT_TRUE(spBPQueueEnqueue(p,e4)==SP_BPQUEUE_FULL);
-	// Index Sort Check + Validate elemnts in place
+	// Index Sort Check + Validate elements in place
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
 	spListElementDestroy(e3);
@@ -163,7 +147,6 @@ bool bpqueueDqueueTest() {
 	int maxSize=5;
 	SPBPQueue p = spBPQueueCreate(maxSize);
 	ASSERT_TRUE(spBPQueueDequeue(NULL)==SP_BPQUEUE_INVALID_ARGUMENT);
-	//Replace Enqeue with quick bpq
 	ASSERT_TRUE(spBPQueueDequeue(p)==SP_BPQUEUE_EMPTY);
 	ASSERT_TRUE(spBPQueueEnqueue(p,e1)==SP_BPQUEUE_SUCCESS);
 	ASSERT_TRUE(spBPQueueEnqueue(p,eMin)==SP_BPQUEUE_SUCCESS);
@@ -188,7 +171,6 @@ bool bpqueueDqueueTest() {
 	spBPQueueDestroy(p);
 	return true;
 }
-
 
 bool bpqueuePeekTest() {
 	SPListElement e1 = spListElementCreate(1, 12.0);

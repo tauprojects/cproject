@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
-//#include "SPListElement.h"
 
 struct sp_bp_queue_t{
 	int maxSize;
