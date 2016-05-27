@@ -30,6 +30,7 @@ void printB(SPBPQueue source){
 		spBPQueueDequeue(source);
 	}
    printf("\n size is %d \n", spBPQueueSize(source));
+   fflush(NULL)
 }
 bool bpqueueCreateTest() {
 	int maxSize=5;
@@ -57,7 +58,6 @@ bool bpqueueBasicCopyTest() {
 	ASSERT_TRUE(spBPQueueSize(p2) == spBPQueueSize(q2));
 	ASSERT_TRUE(spBPQueueSize(q2) == listSize);
 	for(int i=0;i<listSize;i++){ //Itration Warinig with size
-		printf("Number if itrat is %d ",i);
 		ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p2),spBPQueuePeek(q2)));
 		spBPQueueDequeue(p2);
 		spBPQueueDequeue(q2);
@@ -203,6 +203,9 @@ bool bpqueuePeekTest() {
 	spBPQueueEnqueue(p,e2);
 	spBPQueueEnqueue(p,e3);
 	spBPQueueEnqueue(p,e4);
+	fflush(NULL);
+	printf("Im In PEEK \n");
+	fflush(NULL);
 	printB(p);
 	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e5));
 	ASSERT_FALSE(spListElementCompare(spBPQueuePeek(p),e4));
@@ -228,6 +231,9 @@ bool bpqueuePeekLastTest() {
 	spBPQueueEnqueue(p,e2);
 	spBPQueueEnqueue(p,e3);
 	spBPQueueEnqueue(p,e4);
+	fflush(NULL);
+	printf("Im In PEEK \n");
+	fflush(NULL);
 	printB(p);
 	ASSERT_TRUE(spListElementCompare(spBPQueuePeekLast(p),e1));
 	ASSERT_FALSE(spListElementCompare(spBPQueuePeekLast(p),e5));
