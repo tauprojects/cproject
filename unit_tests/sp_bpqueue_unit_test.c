@@ -310,14 +310,14 @@ bool bpqueueIsFullTest() {
 }
 
 int main() {
-	RUN_TEST(bpqueueCreateTest);
-	RUN_TEST(bpqueueBasicCopyTest);
-	RUN_TEST(bpqueueDestroyTest);
-	RUN_TEST(bpqueueClearTest);
-	RUN_TEST(bpqueueSizeTest);
-	RUN_TEST(bpqueueMaxSizeTest);
-	RUN_TEST(bpqueueEnqueueTest);
-	RUN_TEST(bpqueueDqueueTest);
+//	RUN_TEST(bpqueueCreateTest);
+//	RUN_TEST(bpqueueBasicCopyTest);
+//	RUN_TEST(bpqueueDestroyTest);
+//	RUN_TEST(bpqueueClearTest);
+//	RUN_TEST(bpqueueSizeTest);
+//	RUN_TEST(bpqueueMaxSizeTest);
+//	RUN_TEST(bpqueueEnqueueTest);
+//	RUN_TEST(bpqueueDqueueTest);
 	RUN_TEST(bpqueuePeekTest);
 	RUN_TEST(bpqueuePeekLastTest);
 	RUN_TEST(bpqueueMinValueTest);
