@@ -203,9 +203,8 @@ bool bpqueuePeekTest() {
 	spBPQueueEnqueue(p,e2);
 	spBPQueueEnqueue(p,e3);
 	spBPQueueEnqueue(p,e4);
-	printf("Vlaue e5 is %f and value peek is %f \n" ,spListElementGetValue(e5),spListElementGetValue(spBPQueuePeek(p)) );
-	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e5));
-	ASSERT_FALSE(spListElementCompare(spBPQueuePeek(p),e4));
+	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e5)==0);
+	ASSERT_FALSE(spListElementCompare(spBPQueuePeek(p),e4)==0);
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
 	spListElementDestroy(e3);
@@ -228,8 +227,8 @@ bool bpqueuePeekLastTest() {
 	spBPQueueEnqueue(p,e2);
 	spBPQueueEnqueue(p,e3);
 	spBPQueueEnqueue(p,e4);
-	ASSERT_TRUE(spListElementCompare(spBPQueuePeekLast(p),e1));
-	ASSERT_FALSE(spListElementCompare(spBPQueuePeekLast(p),e5));
+	ASSERT_TRUE(spListElementCompare(spBPQueuePeekLast(p),e1)==0);
+	ASSERT_FALSE(spListElementCompare(spBPQueuePeekLast(p),e5)==0);
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
 	spListElementDestroy(e3);
