@@ -27,7 +27,6 @@ bool bpqueueCreateTest() {
 }
 
 bool bpqueueBasicCopyTest() {
-	ASSERT_TRUE(spBPQueueCopy(NULL) == NULL);
 	int maxSize=5;
 	int listSize = 4;
 	SPBPQueue p = spBPQueueCreate(maxSize);
