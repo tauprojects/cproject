@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "unit_test_util.h" //SUPPORTING MACROS ASSERT_TRUE/ASSERT_FALSE etc..
 #include "../SPLogger.h"
-
+#include <string.h>
 
 //This is a helper function which checks if two files are identical
 static bool identicalFiles(const char* fname1, const char* fname2) {
@@ -98,52 +98,33 @@ static bool basicLoggerInfoTest() {
 	return true;
 }
 
-static bool identicalLines(const char* fname1,const char* line){
-	FILE *fp1;
-	fp1 = fopen(fname1, "r");
-	char ch1 = EOF, ch2 = EOF;
-
-	if (fp1 == NULL) {
-		return false;
-	} else if (line == NULL) {
-		fclose(fp1);
-		return false;
-	} else {
-		ch1 = getc(fp1);
-		ch2 = line[0];
-		int i=1;
-		while ((ch1 != EOF) && (ch2 != EOF) && (ch1 == ch2)) {
-			ch1 = getc(fp1);
-			ch2 = line[i];
-		}
-		fclose(fp1);
-	}
-	if (ch1 == ch2) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
 //Will be printed at any level
+static bool identicalLines(char* testFile,char* line){
+	int n = 20;
+	char* tempLine = (char*)malloc(sizeof(char)*n);
+	FILE *fp;
+	fp = fopen(testFile, "r");
+	fgets(tempLine, n, fp);
+	bool a = strcmp(tempLine,line);
+	free(tempLine);
+	return a;
+}
 static bool basicLoggerMsgTest() {
+
+//	const char* expectedFile = "basicLoggerMsgTestExp.log";
 	const char* testFile = "basicLoggerMsgTest.log";
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg("Message ERROR Level") == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(identicalLines(testFile,"Message ERROR Level"));
 	spLoggerDestroy();
-
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg("Message WAENING Level") == SP_LOGGER_SUCCESS);
-	ASSERT_TRUE(identicalLines(testFile,"Message WAENING Level"));
 	spLoggerDestroy();
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg("Message INFO Level") == SP_LOGGER_SUCCESS);
-	ASSERT_TRUE(identicalLines(testFile,"Message INFO Level"));
 	spLoggerDestroy();
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_DEBUG_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg("Message DEBUG Level") == SP_LOGGER_SUCCESS);
-	ASSERT_TRUE(identicalLines(testFile,"Message DEBUG Level"));
 	spLoggerDestroy();
 	return true;
 }
@@ -157,3 +138,4 @@ int main() {
 	RUN_TEST(basicLoggerMsgTest);
 	return 0;
 }
+
