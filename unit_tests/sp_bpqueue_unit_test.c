@@ -235,7 +235,7 @@ bool bpqueuePeekLastTest() {
 	spBPQueueEnqueue(p,e2);
 	spBPQueueEnqueue(p,e3);
 	spBPQueueEnqueue(p,e4);
-	SPListElement tempElement = spBPQueuePeek(p);
+	SPListElement tempElement = spBPQueuePeekLast(p);
 	ASSERT_TRUE(spListElementCompare(tempElement,e1)==0);
 	ASSERT_FALSE(spListElementCompare(tempElement,e5)==0);
 	spListElementDestroy(tempElement);
