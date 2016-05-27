@@ -68,17 +68,16 @@ SP_LOGGER_MSG spLoggerPrintError(const char* msg, const char* file,
 	}
 	rc = fprintf(f, "---ERROR---\n" );
 	WRITE_ERROR(rc)
-	rc = fprintf(f, "file: %s\n", file);
+	rc = fprintf(f, "- file: %s\n", file);
 	WRITE_ERROR(rc)
-	rc = fprintf(f, "function: %s\n", function);
+	rc = fprintf(f, "- function: %s\n", function);
 	WRITE_ERROR(rc)
-	rc = fprintf(f, "line: %d\n", line);
+	rc = fprintf(f, "- line: %d\n", line);
 	WRITE_ERROR(rc)
-	rc = fprintf(f, "message: %s\n", msg);
+	rc = fprintf(f, "- message: %s\n", msg);
 	WRITE_ERROR(rc)
 	return SP_LOGGER_SUCCESS;
 }
-
 
 SP_LOGGER_MSG spLoggerPrintWarning(const char* msg, const char* file,
 		const char* function, const int line){
@@ -101,13 +100,13 @@ SP_LOGGER_MSG spLoggerPrintWarning(const char* msg, const char* file,
 	}
 	rc = fprintf(f, "---WARNING---\n" );
 	WRITE_ERROR(rc)
-	rc = fprintf(f, "file: %s\n", file);
+	rc = fprintf(f, "- file: %s\n", file);
 	WRITE_ERROR(rc)
-	rc = fprintf(f, "function: %s\n", function);
+	rc = fprintf(f, "- function: %s\n", function);
 	WRITE_ERROR(rc)
-	rc = fprintf(f, "line: %d\n", line);
+	rc = fprintf(f, "- line: %d\n", line);
 	WRITE_ERROR(rc)
-	rc = fprintf(f, "message: %s\n", msg);
+	rc = fprintf(f, "- message: %s\n", msg);
 	WRITE_ERROR(rc)
 	return SP_LOGGER_SUCCESS;
 }
@@ -132,7 +131,7 @@ SP_LOGGER_MSG spLoggerPrintInfo(const char* msg){
 	}
 	rc = fprintf(f, "---INFO---\n" );
 	WRITE_ERROR(rc)
-	rc = fprintf(f, "message: %s\n", msg);
+	rc = fprintf(f, "- message: %s\n", msg);
 	WRITE_ERROR(rc)
 	return SP_LOGGER_SUCCESS;
 }
@@ -158,16 +157,17 @@ SP_LOGGER_MSG spLoggerPrintDebug(const char* msg, const char* file,
 	}
 	rc = fprintf(f, "---DEBUG---\n" );
 	WRITE_ERROR(rc)
-	rc = fprintf(f, "file: %s\n", file);
+	rc = fprintf(f, "- file: %s\n", file);
 	WRITE_ERROR(rc)
-	rc = fprintf(f, "function: %s\n", function);
+	rc = fprintf(f, "- function: %s\n", function);
 	WRITE_ERROR(rc)
-	rc = fprintf(f, "line: %d\n", line);
+	rc = fprintf(f, "- line: %d\n", line);
 	WRITE_ERROR(rc)
-	rc = fprintf(f, "message: %s\n", msg);
+	rc = fprintf(f, "- message: %s\n", msg);
 	WRITE_ERROR(rc)
 	return SP_LOGGER_SUCCESS;
 }
+
 SP_LOGGER_MSG spLoggerPrintMsg(const char* msg){
 	FILE *f ;
 	int rc;
@@ -183,7 +183,7 @@ SP_LOGGER_MSG spLoggerPrintMsg(const char* msg){
 	else{
 		f = logger->outputChannel;
 	}
-	rc = fprintf(f, "message: %s\n", msg);
+	rc = fprintf(f,"%s\n", msg);
 	WRITE_ERROR(rc)
 	return SP_LOGGER_SUCCESS;
 
