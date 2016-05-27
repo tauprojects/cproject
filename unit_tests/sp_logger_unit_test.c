@@ -104,9 +104,9 @@ static bool identicalLines(const char* testFile,char* line){
 	char* tempLine = (char*)malloc(sizeof(char)*n);
 	FILE *fp;
 	fp = fopen(testFile, "r");
-	tempLine = fgets(tempLine, n, fp);
+	char* temp = fgets(tempLine, n, fp);
 	bool a = strcmp(tempLine,line);
-	free(tempLine);
+	free(temp);
 	free(line);
 	return a;
 }
