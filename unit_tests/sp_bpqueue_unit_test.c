@@ -203,10 +203,6 @@ bool bpqueuePeekTest() {
 	spBPQueueEnqueue(p,e2);
 	spBPQueueEnqueue(p,e3);
 	spBPQueueEnqueue(p,e4);
-	fflush(NULL);
-	printf("Im In PEEK \n");
-	fflush(NULL);
-	printB(p);
 	ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p),e5));
 	ASSERT_FALSE(spListElementCompare(spBPQueuePeek(p),e4));
 	spListElementDestroy(e1);
@@ -231,10 +227,6 @@ bool bpqueuePeekLastTest() {
 	spBPQueueEnqueue(p,e2);
 	spBPQueueEnqueue(p,e3);
 	spBPQueueEnqueue(p,e4);
-	fflush(NULL);
-	printf("Im In PEEK LAST \n");
-	fflush(NULL);
-	printB(p);
 	ASSERT_TRUE(spListElementCompare(spBPQueuePeekLast(p),e1));
 	ASSERT_FALSE(spListElementCompare(spBPQueuePeekLast(p),e5));
 	spListElementDestroy(e1);
