@@ -125,5 +125,6 @@ int main() {
 	RUN_TEST(basicLoggerDebugTest);
 	RUN_TEST(basicLoggerWarningTest);
 	RUN_TEST(basicLoggerInfoTest);
+	RUN_TEST(basicLoggerMsgTest);
 	return 0;
 }
