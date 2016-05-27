@@ -107,7 +107,7 @@ static bool identicalLines(const char* testFile,char* line){
 	fgets(tempLine, n, fp);
 	bool a = strcmp(tempLine,line);
 	fclose(fp);
-	free(line);
+	free(tempLine);
 	return a;
 }
 static bool basicLoggerMsgTest() {
