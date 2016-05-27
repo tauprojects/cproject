@@ -42,7 +42,7 @@ SPBPQueue spBPQueueCopy(SPBPQueue source){
 }
 
 void spBPQueueDestroy(SPBPQueue source){
-	if(source!=NULL){
+	if(source==NULL){
 		return;
 	}
 	spListDestroy(source->qList);
@@ -50,7 +50,7 @@ void spBPQueueDestroy(SPBPQueue source){
 }
 
 void spBPQueueClear(SPBPQueue source){
-	if(source!=NULL){
+	if(source==NULL){
 			return;
 	}
 	spListClear(source->qList);
