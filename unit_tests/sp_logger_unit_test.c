@@ -98,23 +98,53 @@ static bool basicLoggerInfoTest() {
 	return true;
 }
 
+static bool identicalLines(const char* fname1,const char* line){
+	FILE *fp1;
+	fp1 = fopen(fname1, "r");
+	char ch1 = EOF, ch2 = EOF;
+
+	if (fp1 == NULL) {
+		return false;
+	} else if (line == NULL) {
+		fclose(fp1);
+		return false;
+	} else {
+		ch1 = getc(fp1);
+		ch2 = line[0];
+		int i=1;
+		while ((ch1 != EOF) && (ch2 != EOF) && (ch1 == ch2)) {
+			ch1 = getc(fp1);
+			ch2 = line[i];
+		}
+		fclose(fp1);
+	}
+	if (ch1 == ch2) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 //Will be printed at any level
 static bool basicLoggerMsgTest() {
-	const char* expectedFile = "basicLoggerMsgTestExp.log";
 	const char* testFile = "basicLoggerMsgTest.log";
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg("Message ERROR Level") == SP_LOGGER_SUCCESS);
+	ASSERT_TRUE(identicalLines(testFile,"Message ERROR Level"));
 	spLoggerDestroy();
+
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg("Message WAENING Level") == SP_LOGGER_SUCCESS);
+	ASSERT_TRUE(identicalLines(testFile,"Message WAENING Level"));
 	spLoggerDestroy();
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg("Message INFO Level") == SP_LOGGER_SUCCESS);
+	ASSERT_TRUE(identicalLines(testFile,"Message INFO Level"));
 	spLoggerDestroy();
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_DEBUG_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg("Message DEBUG Level") == SP_LOGGER_SUCCESS);
+	ASSERT_TRUE(identicalLines(testFile,"Message DEBUG Level"));
 	spLoggerDestroy();
-	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
 	return true;
 }
 

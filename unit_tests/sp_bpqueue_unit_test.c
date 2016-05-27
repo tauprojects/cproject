@@ -41,13 +41,13 @@ bool bpqueueBasicCopyTest() {
 	SPBPQueue q2 = spBPQueueCopy(p2);
 	ASSERT_TRUE(spBPQueueSize(p2) == spBPQueueSize(q2));
 	ASSERT_TRUE(spBPQueueSize(q2) == listSize);
-	SPListElement tempElemntP;
+	SPListElement tempElemntP;  //Initialize two tempElemnts before the loop
 	SPListElement tempElementQ;
 	for(int i=0;i<listSize;i++){
 		tempElemntP = spBPQueuePeek(p2);
 		tempElementQ = spBPQueuePeek(q2);
 		ASSERT_TRUE(spListElementCompare(tempElemntP,tempElementQ)==0);
-		spListElementDestroy(tempElemntP);
+		spListElementDestroy(tempElemntP);  //Destroting every iteration
 		spListElementDestroy(tempElementQ);
 		spBPQueueDequeue(p2);
 		spBPQueueDequeue(q2);
