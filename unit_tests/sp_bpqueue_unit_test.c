@@ -44,6 +44,7 @@ bool bpqueueBasicCopyTest() {
 	ASSERT_TRUE(spBPQueueSize(p2) == spBPQueueSize(q2));
 	ASSERT_TRUE(spBPQueueSize(q2) == listSize);
 	for(int i=0;i<listSize;i++){ //Itration Warinig with size
+		printf("Number if itrat is %d ",i);
 		ASSERT_TRUE(spListElementCompare(spBPQueuePeek(p2),spBPQueuePeek(q2)));
 		spBPQueueDequeue(p2);
 		spBPQueueDequeue(q2);
