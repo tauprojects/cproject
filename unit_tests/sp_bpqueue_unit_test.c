@@ -286,6 +286,7 @@ bool bpqueueIsEmptyTest() {
 	spBPQueueEnqueue(p,e1);
 	ASSERT_FALSE(spBPQueueIsEmpty(p));
 	spBPQueueDestroy(p);
+	spListElementDestroy(e1);
 	return true;
 }
 
