@@ -191,13 +191,13 @@ SP_BPQUEUE_MSG spBPQueueDequeue(SPBPQueue source){
 
 SPListElement spBPQueuePeek(SPBPQueue source){
 	assert(source!=NULL);
-	return spListElementCopy(spListGetFirst(source->qList));
+	return (spListElementCopy(spListGetFirst(source->qList)));
 }
 
 SPListElement spBPQueuePeekLast(SPBPQueue source){
 	assert(source!=NULL);
 	spBPQsetTailAsCurrent(source->qList);
-	return spListElementCopy(spListGetCurrent(source->qList));
+	return (spListElementCopy(spListGetCurrent(source->qList)));
 }
 
 double spBPQueueMinValue(SPBPQueue source){
