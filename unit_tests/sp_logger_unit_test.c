@@ -83,7 +83,6 @@ static bool basicLoggerWarningTest() {
 	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
 	return true;
 }
-
 //All messeges should be printed except Debug.
 static bool basicLoggerInfoTest() {
 	//Basically worked - had a problam with memory
