@@ -19,10 +19,9 @@ SPBPQueue quickBPQ(int maxSize,int size, ...) {
 void printBPQ(SPBPQueue p){
 	int size=spBPQueueSize(p);
 	SPBPQueue q = spBPQueueCopy(p);
-	SPListElement tempElement = NULL;
 	for(int i=0;i<size;i++){
-		tempElement = spBPQueuePeek(p);
-		printf("index is %d, val is %f\n",spListElementGetIndex(tempElement) ,spListElementGetValue(tempElement));
+		spBPQueueDequeue(p);
+		printf("index is %d, val is %f\n",spListElementGetIndex(spBPQueuePeek(p)) ,spListElementGetValue(spBPQueuePeek(p)));
 	}
 	spBPQueueDestroy(q);
 }
