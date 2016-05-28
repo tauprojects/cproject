@@ -104,7 +104,7 @@ static bool identicalLines(const char* testFile,char* line){
 	char* tempLine = (char*)malloc(sizeof(char)*n);
 	FILE *fp;
 	fp=fopen(testFile,"r");
-	fscanf(fp,"%[^\n]",tempLine);
+	fscanf(fp,"%[^\\n]",tempLine);
 //	int res = strcmp(tempLine,line);
 	fclose(fp);
 //	if(res==0) return true;
