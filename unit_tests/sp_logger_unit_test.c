@@ -107,12 +107,12 @@ static bool identicalLines(const char* testFile,char* line){
 	fscanf(fp,"%[^\n]",tempLine);
 //	int res = strcmp(tempLine,line);
 	fclose(fp);
-//	free(tempLine);
 //	if(res==0) return true;
 //	else return false;
 	printf("\n TestFile is: %s \n" , testFile);
 	printf("\n Fileline is: %s \n" , tempLine);
 	printf("\n Expecline is: %s \n" , line);
+	free(tempLine);
 	return true;
 
 
