@@ -163,8 +163,8 @@ bool bpqueueEnqueueTest() {
 	spListElementDestroy(e2);
 	spListElementDestroy(e3);
 	spListElementDestroy(e4);
-	spListElementDestroy(e3);
-	spListElementDestroy(e4);
+	spListElementDestroy(e5);
+	spListElementDestroy(e6);
 	spBPQueueDestroy(p);
 	return true;
 }
