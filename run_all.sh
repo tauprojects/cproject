@@ -1,3 +1,4 @@
+##Argumen - leak-check=true
 set -ex
 git pull
 make -f SPLoggerTest.make clean 
