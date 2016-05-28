@@ -83,6 +83,7 @@ static bool basicLoggerWarningTest() {
 	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
 	return true;
 }
+
 //All messeges should be printed except Debug.
 static bool basicLoggerInfoTest() {
 	const char* expectedFile = "basicLoggerInfoTestExp.log";
