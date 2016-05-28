@@ -101,15 +101,22 @@ static bool basicLoggerInfoTest() {
 //Will be printed at any level
 static bool identicalLines(const char* testFile,char* line){
 	int n = 128;
-	char tempLine[n];
+	char tempLine[1000];
 	FILE *fp;
-	fp = fopen(testFile, "r");
-	fgets(tempLine, n, fp);
-	printf("%s",tempLine);
-	int res = strcmp(tempLine,line);
+	if ((fp=fopen(testFile,"r"))==NULL){
+	     printf("Error! opening file");
+	 }
+	fscanf(fp,"%[^\n]",tempLine);
+	printf("Data from file:\n%s",tempLine);
+//	fgets(tempLine, n, fp);
+//	printf("%s",tempLine);
+//	int res = strcmp(tempLine,line);
 	fclose(fp);
-	if(res==0) return true;
-	else return true;
+//	if(res==0) return true;
+//	else return true;
+	return true;
+
+
 }
 static bool basicLoggerMsgTest() {
 
