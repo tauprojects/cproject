@@ -102,11 +102,11 @@ static bool basicLoggerInfoTest() {
 static bool identicalLines(const char* testFile,char* line){
 //	int n = 128;
 //	char* tempLine = (char*)malloc(sizeof(char)*n);
-//	FILE *fp;
-//	fp=fopen(testFile,"r");
+	FILE *fp;
+	fp=fopen(testFile,"r");
 //	fscanf(fp,"%[^\n]",tempLine);
 //	int res = strcmp(tempLine,line);
-//	fclose(fp);
+	fclose(fp);
 //	free(tempLine);
 //	if(res==0) return true;
 //	else return false;
