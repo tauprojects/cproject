@@ -100,7 +100,7 @@ static bool basicLoggerInfoTest() {
 
 //Will be printed at any level
 static bool identicalLines(const char* testFile,char* line){
-	int n = 128;
+//	int n = 128;
 	char tempLine[1000];
 	FILE *fp;
 	if ((fp=fopen(testFile,"r"))==NULL){
@@ -109,7 +109,7 @@ static bool identicalLines(const char* testFile,char* line){
 	fscanf(fp,"%[^\n]",tempLine);
 	printf("Data from file:\n%s",tempLine);
 //	fgets(tempLine, n, fp);
-//	printf("%s",tempLine);
+    printf("%s",line);
 //	int res = strcmp(tempLine,line);
 	fclose(fp);
 //	if(res==0) return true;
