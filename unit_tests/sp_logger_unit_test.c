@@ -86,7 +86,6 @@ static bool basicLoggerWarningTest() {
 
 //All messeges should be printed except Debug.
 static bool basicLoggerInfoTest() {
-	//Basically worked - had a problam with memory
 	const char* expectedFile = "basicLoggerInfoTestExp.log";
 	const char* testFile = "basicLoggerInfoTest.log";
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
@@ -100,35 +99,24 @@ static bool basicLoggerInfoTest() {
 }
 
 //Will be printed at any level
-static bool identicalLines(const char* testFile,char* line){
-	int n = 20;
-	char* tempLine = (char*)malloc(sizeof(char)*n);
-	FILE *fp;
-	fp = fopen(testFile, "r");
-	fgets(tempLine, n, fp);
-	int res = strcmp(tempLine,line);
-	fclose(fp);
-	free(tempLine);
-	if(res==0) return true;
-	else return false;
-}
+
 static bool basicLoggerMsgTest() {
 
-//	const char* expectedFile = "basicLoggerMsgTestExp.log";
+	const char* expectedFile = "basicLoggerMsgTestExp.log";
 	const char* testFile = "basicLoggerMsgTest.log";
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg("Message ERROR Level") == SP_LOGGER_SUCCESS);
-	ASSERT_TRUE(identicalLines(testFile,"Message ERROR Level"));
+	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
 	spLoggerDestroy();
-	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
-	ASSERT_TRUE(spLoggerPrintMsg("Message WAENING Level") == SP_LOGGER_SUCCESS);
-	spLoggerDestroy();
-	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
-	ASSERT_TRUE(spLoggerPrintMsg("Message INFO Level") == SP_LOGGER_SUCCESS);
-	spLoggerDestroy();
-	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_DEBUG_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
-	ASSERT_TRUE(spLoggerPrintMsg("Message DEBUG Level") == SP_LOGGER_SUCCESS);
-	spLoggerDestroy();
+//	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
+//	ASSERT_TRUE(spLoggerPrintMsg("Message WAENING Level") == SP_LOGGER_SUCCESS);
+//	spLoggerDestroy();
+//	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
+//	ASSERT_TRUE(spLoggerPrintMsg("Message INFO Level") == SP_LOGGER_SUCCESS);
+//	spLoggerDestroy();
+//	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_DEBUG_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
+//	ASSERT_TRUE(spLoggerPrintMsg("Message DEBUG Level") == SP_LOGGER_SUCCESS);
+//	spLoggerDestroy();
 	return true;
 }
 
