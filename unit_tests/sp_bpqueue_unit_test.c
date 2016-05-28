@@ -20,8 +20,8 @@ void printBPQ(SPBPQueue p){
 	int size=spBPQueueSize(p);
 	SPBPQueue q = spBPQueueCopy(p);
 	for(int i=0;i<size;i++){
-		spBPQueueDequeue(p);
 		printf("index is %d, val is %f\n",spListElementGetIndex(spBPQueuePeek(p)) ,spListElementGetValue(spBPQueuePeek(p)));
+		spBPQueueDequeue(p);
 	}
 	spBPQueueDestroy(q);
 }
