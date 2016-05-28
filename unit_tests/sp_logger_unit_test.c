@@ -110,7 +110,7 @@ static bool identicalLines(const char* testFile,char* line){
 //	free(tempLine);
 //	if(res==0) return true;
 //	else return false;
-	printf("\n line is: %s \n" , line)
+	printf("\n line is: %s \n" , line);
 	return true;
 
 
