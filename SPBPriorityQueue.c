@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
+#define MSG_MACRO { if(msg==SP_LIST_OUT_OF_MEMORY){ if(isFull) return SP_BPQUEUE_FULL; else return SP_BPQUEUE_OUT_OF_MEMORY;} else if(msg==SP_LIST_SUCCESS){ if(isFull) return SP_BPQUEUE_FULL; else return SP_BPQUEUE_SUCCESS; }}
 
 struct sp_bp_queue_t{
 	int maxSize;
@@ -99,41 +100,11 @@ SP_BPQUEUE_MSG spBPQueueEnqueue(SPBPQueue source, SPListElement element){
 	SP_LIST_MSG msg;
 	if(spBPQueueIsEmpty(source) || (spListElementGetValue(element)<spBPQueueMinValue(source))){
 		msg=spListInsertFirst(source->qList,element);
-		if(msg==SP_LIST_OUT_OF_MEMORY){
-			if(isFull){
-				return SP_BPQUEUE_FULL;
-			}
-			else{
-				return SP_BPQUEUE_OUT_OF_MEMORY;
-			}
-		}
-		else if(msg==SP_LIST_SUCCESS){
-			if(isFull){
-				return SP_BPQUEUE_FULL;
-			}
-			else{
-				return SP_BPQUEUE_SUCCESS;
-			}
-		}
+		MSG_MACRO
 	}
 	if(spListElementGetValue(element)>spBPQueueMaxValue(source)){
 		msg=spListInsertLast(source->qList,element);
-		if(msg==SP_LIST_OUT_OF_MEMORY){
-			if(isFull){
-				return SP_BPQUEUE_FULL;
-			}
-			else{
-				return SP_BPQUEUE_OUT_OF_MEMORY;
-			}
-		}
-		else if(msg==SP_LIST_SUCCESS){
-			if(isFull){
-				return SP_BPQUEUE_FULL;
-			}
-			else{
-				return SP_BPQUEUE_SUCCESS;
-			}
-		}
+		MSG_MACRO
 	}
 	spListGetFirst(source->qList);
 	while(spListElementGetValue(spListGetCurrent(source->qList))<spListElementGetValue(element)){
@@ -150,22 +121,8 @@ SP_BPQUEUE_MSG spBPQueueEnqueue(SPBPQueue source, SPListElement element){
 	else{
 		msg=spListInsertBeforeCurrent(source->qList,element);
 	}
-	if(msg==SP_LIST_OUT_OF_MEMORY){
-		if(isFull){
-			return SP_BPQUEUE_FULL;
-		}
-		else{
-			return SP_BPQUEUE_OUT_OF_MEMORY;
-		}
-	}
-	else{
-		if(isFull){
-			return SP_BPQUEUE_FULL;
-		}
-		else{
-			return SP_BPQUEUE_SUCCESS;
-		}
-	}
+	MSG_MACRO
+	return SP_BPQUEUE_OUT_OF_MEMORY;
 }
 
 SP_BPQUEUE_MSG spBPQueueDequeue(SPBPQueue source){
