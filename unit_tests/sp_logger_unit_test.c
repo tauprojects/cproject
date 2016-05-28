@@ -106,8 +106,8 @@ static bool basicLoggerMsgTest() {
 	const char* testFile = "basicLoggerMsgTest.log";
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg("Message ERROR Level") == SP_LOGGER_SUCCESS);
-	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
 	spLoggerDestroy();
+	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
 //	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 //	ASSERT_TRUE(spLoggerPrintMsg("Message WAENING Level") == SP_LOGGER_SUCCESS);
 //	spLoggerDestroy();
