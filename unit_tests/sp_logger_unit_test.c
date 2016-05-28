@@ -108,15 +108,15 @@ static bool basicLoggerMsgTest() {
 	ASSERT_TRUE(spLoggerPrintMsg("Message ERROR Level") == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
 	spLoggerDestroy();
-	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
-	ASSERT_TRUE(spLoggerPrintMsg("Message WAENING Level") == SP_LOGGER_SUCCESS);
-	spLoggerDestroy();
-	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
-	ASSERT_TRUE(spLoggerPrintMsg("Message INFO Level") == SP_LOGGER_SUCCESS);
-	spLoggerDestroy();
-	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_DEBUG_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
-	ASSERT_TRUE(spLoggerPrintMsg("Message DEBUG Level") == SP_LOGGER_SUCCESS);
-	spLoggerDestroy();
+//	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
+//	ASSERT_TRUE(spLoggerPrintMsg("Message WAENING Level") == SP_LOGGER_SUCCESS);
+//	spLoggerDestroy();
+//	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
+//	ASSERT_TRUE(spLoggerPrintMsg("Message INFO Level") == SP_LOGGER_SUCCESS);
+//	spLoggerDestroy();
+//	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_DEBUG_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
+//	ASSERT_TRUE(spLoggerPrintMsg("Message DEBUG Level") == SP_LOGGER_SUCCESS);
+//	spLoggerDestroy();
 	return true;
 }
 
