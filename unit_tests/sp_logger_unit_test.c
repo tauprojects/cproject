@@ -99,7 +99,7 @@ static bool basicLoggerInfoTest() {
 
 //Will be printed at any level
 static bool identicalLines(const char* testFile,char* line){
-	int n = 20;
+	int n = 128;
 	char* tempLine = (char*)malloc(sizeof(char)*n);
 	FILE *fp;
 	fp = fopen(testFile, "r");
@@ -137,7 +137,7 @@ int main() {
 	RUN_TEST(basicLoggerDebugTest);
 	RUN_TEST(basicLoggerWarningTest);
 	RUN_TEST(basicLoggerInfoTest);
-//	RUN_TEST(basicLoggerMsgTest);
+	RUN_TEST(basicLoggerMsgTest);
 	return 0;
 }
 
