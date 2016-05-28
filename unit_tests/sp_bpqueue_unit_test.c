@@ -159,7 +159,6 @@ bool bpqueueEnqueueTest() {
 	ASSERT_TRUE(spBPQueueEnqueue(p,e4)==SP_BPQUEUE_FULL);
 	ASSERT_TRUE(spBPQueueEnqueue(p,e5)==SP_BPQUEUE_FULL);
 	ASSERT_TRUE(spBPQueueEnqueue(p,e6)==SP_BPQUEUE_FULL);
-	printBPQ(p); //return empty Q
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
 	spListElementDestroy(e3);
