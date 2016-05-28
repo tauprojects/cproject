@@ -101,16 +101,17 @@ static bool basicLoggerInfoTest() {
 //Will be printed at any level
 static bool identicalLines(const char* testFile,char* line){
 //	int n = 128;
-//	char* tempLine = (char*)malloc(sizeof(char)*n);
+	char* tempLine = (char*)malloc(sizeof(char)*n);
 	FILE *fp;
 	fp=fopen(testFile,"r");
-//	fscanf(fp,"%[^\n]",tempLine);
+	fscanf(fp,"%[^\n]",tempLine);
 //	int res = strcmp(tempLine,line);
 	fclose(fp);
 //	free(tempLine);
 //	if(res==0) return true;
 //	else return false;
-	printf("\n line is: %s \n" , line);
+	printf("\n Fileline is: %s \n" , tempLine);
+	printf("\n Expecline is: %s \n" , line);
 	return true;
 
 
