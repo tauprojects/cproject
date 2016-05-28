@@ -106,8 +106,8 @@ static bool identicalLines(const char* testFile,char* line){
 	if ((fp=fopen(testFile,"r"))==NULL){
 	     printf("Error! opening file");
 	 }
-	fscanf(fp,"%[^\n]",tempLine);
-	printf("Data from file:\n%s",tempLine);
+//	fscanf(fp,"%[^\n]",tempLine);
+//	printf("Data from file:\n%s",tempLine);
 //	fgets(tempLine, n, fp);
     printf("%s",line);
 //	int res = strcmp(tempLine,line);
