@@ -16,6 +16,17 @@ SPBPQueue quickBPQ(int maxSize,int size, ...) {
 	return queue;
 }
 
+void printBPQ(SPBPQueue p){
+	int size=spBPQueueSize(p);
+	SPBPQueue q = spBPQueueCopy(p);
+	SPListElement tempElement = NULL;
+	for(int i=0;i<size;i++){
+		tempElement = spBPQueuePeek(p);
+		printf("index is %d, val is %f\n",spListElementGetIndex(tempElement) ,spListElementGetValue(tempElement));
+	}
+	spBPQueueDestroy(q);
+}
+
 bool bpqueueCreateTest() {
 	int maxSize=5;
 	SPBPQueue p = spBPQueueCreate(maxSize);
@@ -115,10 +126,12 @@ bool bpqueueMaxSizeTest() {
 }
 
 bool bpqueueEnqueueTest() {
-	SPListElement e1 = spListElementCreate(1, 12.0);
+	SPListElement e1 = spListElementCreate(5, 12.0);
 	SPListElement e2 = spListElementCreate(2, 8.0);
 	SPListElement e3 = spListElementCreate(3, 3.0);
 	SPListElement e4 = spListElementCreate(4, 15.0);
+	SPListElement e5 = spListElementCreate(1, 8.0);
+	SPListElement e6 = spListElementCreate(1, 12.0);
 	int maxSize=5;
 	SPBPQueue p = spBPQueueCreate(maxSize);
 	ASSERT_TRUE(spBPQueueEnqueue(p,e1)==SP_BPQUEUE_SUCCESS);
@@ -145,9 +158,15 @@ bool bpqueueEnqueueTest() {
 	ASSERT_TRUE(spListElementCompare(tempElement,e3)==0);
 	spListElementDestroy(tempElement);
 	ASSERT_TRUE(spBPQueueEnqueue(p,e4)==SP_BPQUEUE_FULL);
-	// Index Sort Check + Validate elements in place
+	printBPQ(p); //return empty Q
+	ASSERT_TRUE(spBPQueueEnqueue(p,e5)==SP_BPQUEUE_FULL);
+	printBPQ(p); //return empty Q
+	ASSERT_TRUE(spBPQueueEnqueue(p,e6)==SP_BPQUEUE_FULL);
+	printBPQ(p); //return empty Q
 	spListElementDestroy(e1);
 	spListElementDestroy(e2);
+	spListElementDestroy(e3);
+	spListElementDestroy(e4);
 	spListElementDestroy(e3);
 	spListElementDestroy(e4);
 	spBPQueueDestroy(p);
