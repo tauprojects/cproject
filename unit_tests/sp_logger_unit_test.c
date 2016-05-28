@@ -110,6 +110,7 @@ static bool identicalLines(const char* testFile,char* line){
 //	free(tempLine);
 //	if(res==0) return true;
 //	else return false;
+	printf("\n TestFile is: %s \n" , testFile);
 	printf("\n Fileline is: %s \n" , tempLine);
 	printf("\n Expecline is: %s \n" , line);
 	return true;
