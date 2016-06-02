@@ -38,9 +38,9 @@ SPBPQueue spBPQueueCreate(int maxSize);
  * elements as in the target BPQueue.
  *
  * @param source - The source queue
- * @assert (source != NUlL)
  * @return
  * NULL in case memory allocation occurs
+ * NULL in case source is NULL
  * Others a copy of source is returned.
  */
 SPBPQueue spBPQueueCopy(SPBPQueue source);
@@ -67,9 +67,9 @@ void spBPQueueClear(SPBPQueue source);
  * A getter for the size of the BPQueue
  *
  * @param source - The source BPQueue
- * @assert source != NULL
  * @return
  * The size of the BPQueue
+ * -1 in case source is NULL
  */
 int spBPQueueSize(SPBPQueue source);
 
@@ -77,9 +77,9 @@ int spBPQueueSize(SPBPQueue source);
  * A getter for the  max size of the BPQueue
  *
  * @param source - The source BPQueue
- * @assert source != NULL
  * @return
  * The max size of the BPQueue
+ * -1 in case source is NULL
  */
 int spBPQueueGetMaxSize(SPBPQueue source);
 
@@ -115,9 +115,9 @@ SP_BPQUEUE_MSG spBPQueueDequeue(SPBPQueue source);
  * Returns a NEW COPY of the element with the lowest value
  *
  * @param source - The source BPQueue
- * @assert source != NULL
  * @return
  * a NEW COPY of the element with the lowest value.
+ * NULL in case source is NULL
  */
 SPListElement spBPQueuePeek(SPBPQueue source);
 
@@ -125,27 +125,28 @@ SPListElement spBPQueuePeek(SPBPQueue source);
  * Returns a NEW COPY of the element with the highest value
  *
  * @param source - The source BPQueue
- * @assert source != NULL
  * @return
  * a NEW COPY of the element with the highest value.
+ * NULL in case source is NULL
  */
 SPListElement spBPQueuePeekLast(SPBPQueue source);
 
 /**
  * A getter for the minimum value in the queue
  *
+ * @pre source != NULL
  * @param source - The source BPQueue
- * @assert source != NULL
  * @return
  * The minimum value in the queue
+ *
  */
 double spBPQueueMinValue(SPBPQueue source);
 
 /**
  * A getter for the maximum value in the queue
  *
+ * @pre source != NULL
  * @param source - The source BPQueue
- * @assert source != NULL
  * @return
  * The maximum value in the queue
  */

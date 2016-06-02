@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
-#define MSG_MACRO { if(msg==SP_LIST_OUT_OF_MEMORY){ if(isFull) return SP_BPQUEUE_FULL; else return SP_BPQUEUE_OUT_OF_MEMORY;} else if(msg==SP_LIST_SUCCESS){ if(isFull) return SP_BPQUEUE_FULL; else return SP_BPQUEUE_SUCCESS; }}
+#define MSG_MACRO { if(msg==SP_LIST_OUT_OF_MEMORY){return SP_BPQUEUE_OUT_OF_MEMORY;} else if(msg==SP_LIST_SUCCESS){ return SP_BPQUEUE_SUCCESS; }}
 
 struct sp_bp_queue_t{
 	int maxSize;
@@ -31,7 +31,9 @@ SPBPQueue spBPQueueCreate(int maxSize){
 }
 
 SPBPQueue spBPQueueCopy(SPBPQueue source){
-	assert(source!=NULL);
+	if(source==NULL){
+			return NULL;
+	}
 	SPBPQueue queueCopy=(SPBPQueue) malloc(sizeof(*queueCopy));
 	if(queueCopy==NULL){
 			return NULL;
@@ -57,12 +59,16 @@ void spBPQueueClear(SPBPQueue source){
 }
 
 int spBPQueueSize(SPBPQueue source){
-	assert(source!=NULL);
+	if(source==NULL){
+		return -1;
+	}
 	return spListGetSize(source->qList);
 }
 
 int spBPQueueGetMaxSize(SPBPQueue source){
-	assert(source!=NULL);
+	if(source==NULL){
+		return -1;
+	}
 	return source->maxSize;
 }
 
@@ -72,11 +78,11 @@ void spBPQsetTailAsCurrent(SPList qlist){
 		spListGetNext(qlist);	    //Function returning unused element.
 	}
 }
+
 SP_BPQUEUE_MSG spBPQueueEnqueue(SPBPQueue source, SPListElement element){
 	if(source==NULL || element==NULL){
 		return SP_BPQUEUE_INVALID_ARGUMENT;
 	}
-	bool isFull=false;
 	if(spBPQueueIsFull(source)){
 		if(spListElementGetValue(element)>spBPQueueMaxValue(source)){
 			return SP_BPQUEUE_FULL;
@@ -85,7 +91,6 @@ SP_BPQUEUE_MSG spBPQueueEnqueue(SPBPQueue source, SPListElement element){
 			spBPQsetTailAsCurrent(source->qList);
 			if(spListElementGetIndex(element) < spListElementGetIndex(spListGetCurrent(source->qList))){
 				spListRemoveCurrent(source->qList);
-				isFull=true;
 			}
 			else{
 				return SP_BPQUEUE_FULL;
@@ -94,7 +99,6 @@ SP_BPQUEUE_MSG spBPQueueEnqueue(SPBPQueue source, SPListElement element){
 		else{
 			spBPQsetTailAsCurrent(source->qList);
 			spListRemoveCurrent(source->qList);
-			isFull=true;
 		}
 	}
 	SP_LIST_MSG msg;
@@ -146,23 +150,25 @@ SP_BPQUEUE_MSG spBPQueueDequeue(SPBPQueue source){
 }
 
 SPListElement spBPQueuePeek(SPBPQueue source){
-	assert(source!=NULL);
+	if(source==NULL){
+		return NULL;
+	}
 	return (spListElementCopy(spListGetFirst(source->qList)));
 }
 
 SPListElement spBPQueuePeekLast(SPBPQueue source){
-	assert(source!=NULL);
+	if(source==NULL){
+		return NULL;
+	}
 	spBPQsetTailAsCurrent(source->qList);
 	return (spListElementCopy(spListGetCurrent(source->qList)));
 }
 
 double spBPQueueMinValue(SPBPQueue source){
-	assert(source!=NULL);
 	return (spListElementGetValue(spListGetFirst(source->qList)));
 }
 
 double spBPQueueMaxValue(SPBPQueue source){
-	assert(source!=NULL);
 	spBPQsetTailAsCurrent(source->qList);
 	return (spListElementGetValue(spListGetCurrent(source->qList)));
 }
