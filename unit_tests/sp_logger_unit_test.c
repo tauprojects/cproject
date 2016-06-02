@@ -38,7 +38,7 @@ static bool identicalFiles(const char* fname1, const char* fname2) {
 //Logger is not defined
 static bool basicLoggerTest() {
 	ASSERT_TRUE(spLoggerPrintError("A","sp_logger_unit_test.c",__func__,__LINE__) == SP_LOGGER_UNDIFINED);
-	spLoggerDestroy();
+	spLoggerDestroy();               //Logger destroy  and Memory Re-Allocation
 	return true;
 }
 
@@ -51,7 +51,7 @@ static bool basicLoggerErrorTest() {
 	ASSERT_TRUE(spLoggerPrintWarning("MSGB","sp_logger_unit_test.c",__func__,__LINE__) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintInfo("MSGC") == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintDebug("MSGD","sp_logger_unit_test.c",__func__,__LINE__) == SP_LOGGER_SUCCESS);
-	spLoggerDestroy();
+	spLoggerDestroy();               //Logger destroy  and Memory Re-Allocation
 	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
 	return true;
 }
@@ -65,13 +65,20 @@ static bool basicLoggerDebugTest() {
 	ASSERT_TRUE(spLoggerPrintWarning("MSGB","sp_logger_unit_test.c",__func__,__LINE__) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintInfo("MSGC") == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintDebug("MSGD","sp_logger_unit_test.c",__func__,__LINE__) == SP_LOGGER_SUCCESS);
-	spLoggerDestroy();
+	spLoggerDestroy();          //Logger destroy  and Memory Re-Allocation
 	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
 	return true;
 }
 
-//Only Errors and Warning will be print
+/**
+ * Warning Messages Unit-Test
+ * Only Error and Warning Messages Should be printed
+ * Compares and Asserts an expected message text file to the logger message text file
+ * Use identicalFiles() helper function to compare files
+ * Asserts Logger Messages in all different cases
+ */
 static bool basicLoggerWarningTest() {
+//Defining messages text files references for comparing printed messages
 	const char* expectedFile = "basicLoggerWarningTestExp.log";
 	const char* testFile = "basicLoggerWarningTest.log";
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
@@ -79,13 +86,19 @@ static bool basicLoggerWarningTest() {
 	ASSERT_TRUE(spLoggerPrintWarning("MSGB","sp_logger_unit_test.c",__func__,__LINE__) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintInfo("MSGC") == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintDebug("MSGD","sp_logger_unit_test.c",__func__,__LINE__) == SP_LOGGER_SUCCESS);
-	spLoggerDestroy();
+	spLoggerDestroy();          //Logger destroy  and Memory Re-Allocation
 	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
 	return true;
 }
-
-//All messeges should be printed except Debug.
+/**
+ * Warning Messages Unit-Test
+ * All Messages should be printed except Debug
+ * Compares and Asserts an expected message text file to the logger message text file
+ * Use identicalFiles() helper function to compare files
+ * Asserts Logger Messages in all different cases
+ */
 static bool basicLoggerInfoTest() {
+	//Defining messages text files references for comparing printed messages
 	const char* expectedFile = "basicLoggerInfoTestExp.log";
 	const char* testFile = "basicLoggerInfoTest.log";
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
@@ -93,49 +106,56 @@ static bool basicLoggerInfoTest() {
 	ASSERT_TRUE(spLoggerPrintWarning("MSGB","sp_logger_unit_test.c",__func__,__LINE__) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintInfo("MSGC") == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintDebug("MSGD","sp_logger_unit_test.c",__func__,__LINE__) == SP_LOGGER_SUCCESS);
-	spLoggerDestroy();
+	spLoggerDestroy();          //Logger destroy  and Memory Re-Allocation
 	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
 	return true;
 }
 
-//Will be printed at any level
+/**
+ * Warning Messages Unit-Test
+ * Messages printed in all different levels
+ * Compares and Asserts an expected message text file to the logger message text file
+ * Assert that message s printed in every different level by using and modifying the same expected file
+ * Use identicalFiles() helper function to compare files
+ * Asserts Logger Messages in all different cases
+ */
 
 static bool basicLoggerMsgTest() {
 
 	const char* expectedFile = "basicLoggerMsgTestExp.log";
 	const char* testFile = "basicLoggerMsgTest.log";
-	const char* msg = "Message ERROR Level";
-	FILE *f;
+	const char* msg = "Message ERROR Level";  //Expected msg string - will be modified.
+	FILE *f;				         //Creates new file for the expectedFile modifying
 	f=fopen(expectedFile,"w");
-	fprintf(f,"%s\n", msg);
+	fprintf(f,"%s\n", msg);		//modifying expectedFile sith relevant message
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg(msg) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
-	spLoggerDestroy();
-	fclose(f);
+	spLoggerDestroy();               //Logger destroy  and Memory Re-Allocation
+	fclose(f);							 //Closing the file after asserting
 	f=fopen(expectedFile,"w");
 	msg = "Message WAENING Level";
-	fprintf(f,"%s\n", msg);
+	fprintf(f,"%s\n", msg);			  //modifying expectedFile with relevant message
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg(msg) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
-	spLoggerDestroy();
+	spLoggerDestroy();               //Logger destroy  and Memory Re-Allocation
 	fclose(f);
 	f=fopen(expectedFile,"w");
 	msg = "Message INFO Level";
-	fprintf(f,"%s\n", msg);
+	fprintf(f,"%s\n", msg);			  //modifying expectedFile with relevant message
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg(msg) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
-	spLoggerDestroy();
+	spLoggerDestroy();               //Logger destroy  and Memory Re-Allocation
 	fclose(f);
 	f=fopen(expectedFile,"w");
 	msg="Message DEBUG Level";
-	fprintf(f,"%s\n", msg);
+	fprintf(f,"%s\n", msg);			  //modifying expectedFile with relevant message
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_DEBUG_INFO_WARNING_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(spLoggerPrintMsg(msg) == SP_LOGGER_SUCCESS);
-	spLoggerDestroy();
-	fclose(f);
+	spLoggerDestroy();               //Logger destroy  and Memory Re-Allocation
+	fclose(f);							 //closing file
 	return true;
 }
 

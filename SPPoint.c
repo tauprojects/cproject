@@ -17,15 +17,16 @@ struct sp_point_t{
 };
 
 SPPoint spPointCreate(double* data, int dim, int index){
+	//Validate legal arguments
 	if(dim<=0 || index<0 || data==NULL){
 		return NULL;
 	}
-	SPPoint point=(SPPoint) malloc(sizeof(*point));
-	if(point==NULL){
+	SPPoint point=(SPPoint) malloc(sizeof(*point));    //Allocating memory for new point structure
+	if(point==NULL){										   //Validate no allocation failure
 		return NULL;
 	}
-	point->data=(double*) malloc(sizeof(double)*dim);
-	if(point->data==NULL){
+	point->data=(double*) malloc(sizeof(double)*dim);  //Allocating memory for data field in point structure
+	if(point->data==NULL){										//Validate no allocation failure
 		return NULL;
 	}
 	for(int i=0;i<dim;i++){
@@ -37,32 +38,37 @@ SPPoint spPointCreate(double* data, int dim, int index){
 }
 
 SPPoint spPointCopy(SPPoint source){
+// Asserting legal arguments value
 	assert(source!=NULL);
 	int dim=spPointGetDimension(source);
 	int index=spPointGetIndex(source);
 	double* data=source->data;
-	return spPointCreate(data, dim,index);
+	return spPointCreate(data, dim,index);          //use the spPointCreate function to create new allocated point copy
 }
 
 void spPointDestroy(SPPoint point){
+// Validates legal arguments value
 	if (point == NULL) {
 		return;
 	}
-	free(point->data);
-	free(point);
+	free(point->data);										//Memory re-allocation
+	free(point);												//Memory re-allocation
 }
 
 int spPointGetDimension(SPPoint point){
+// Asserting legal arguments value
 	assert(point!=NULL);
 	return point->dim;
 }
 
 int spPointGetIndex(SPPoint point){
+// Asserting legal arguments value
 	assert(point!=NULL);
 	return point->index;
 }
 
 double spPointGetAxisCoor(SPPoint point, int axis){
+// Asserting legal arguments value
 	assert(point!=NULL);
 	assert(axis>=0);
 	assert(axis<point->dim);
@@ -70,10 +76,12 @@ double spPointGetAxisCoor(SPPoint point, int axis){
 }
 
 double spPointL2SquaredDistance(SPPoint p, SPPoint q){
+// Asserting legal arguments value
 	assert(p!=NULL);
 	assert(q!=NULL);
 	int dimP=spPointGetDimension(p);
 	int dimQ=spPointGetDimension(q);
+// Asserting dimension size
 	assert(dimP==dimQ);
 	double sum=0,temp;
 	for(int i=0;i<dimP;i++){

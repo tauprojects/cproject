@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
+//Defining a MACRO code due to replication of code.
 #define WRITE_ERROR(rc)  { if(rc<0) return SP_LOGGER_WRITE_FAIL; }
 //File open mode
 #define SP_LOGGER_OPEN_MODE "w"
@@ -53,7 +55,7 @@ void spLoggerDestroy() {
 SP_LOGGER_MSG spLoggerPrintError(const char* msg, const char* file,
 		const char* function, const int line){
 	FILE *f ;
-	int rc;
+	int rc;            //Initialize int variable for fprintf() returning value
 	if(logger==NULL){
 		return SP_LOGGER_UNDIFINED;
 	}
@@ -67,7 +69,7 @@ SP_LOGGER_MSG spLoggerPrintError(const char* msg, const char* file,
 		f = logger->outputChannel;
 	}
 	rc = fprintf(f, "---ERROR---\n" );
-	WRITE_ERROR(rc)
+	WRITE_ERROR(rc)			//Checks return value from fprintf()
 	rc = fprintf(f, "- file: %s\n", file);
 	WRITE_ERROR(rc)
 	rc = fprintf(f, "- function: %s\n", function);
@@ -81,11 +83,11 @@ SP_LOGGER_MSG spLoggerPrintError(const char* msg, const char* file,
 
 SP_LOGGER_MSG spLoggerPrintWarning(const char* msg, const char* file,
 		const char* function, const int line){
+	FILE *f ;
+	int rc;            //Initialize int variable for fprintf() returning value
 	if(logger->level==SP_LOGGER_ERROR_LEVEL){
 		return SP_LOGGER_SUCCESS;
 	}
-	FILE *f ;
-	int rc;
 	if(logger==NULL){
 		return SP_LOGGER_UNDIFINED;
 	}
@@ -99,7 +101,7 @@ SP_LOGGER_MSG spLoggerPrintWarning(const char* msg, const char* file,
 		f = logger->outputChannel;
 	}
 	rc = fprintf(f, "---WARNING---\n" );
-	WRITE_ERROR(rc)
+	WRITE_ERROR(rc)			//Checks return value from fprintf()
 	rc = fprintf(f, "- file: %s\n", file);
 	WRITE_ERROR(rc)
 	rc = fprintf(f, "- function: %s\n", function);
@@ -112,11 +114,11 @@ SP_LOGGER_MSG spLoggerPrintWarning(const char* msg, const char* file,
 }
 
 SP_LOGGER_MSG spLoggerPrintInfo(const char* msg){
+	FILE *f ;
+	int rc;            //Initialize int variable for fprintf() returning value
 	if(logger->level==SP_LOGGER_ERROR_LEVEL || logger->level==SP_LOGGER_WARNING_ERROR_LEVEL){
 		return SP_LOGGER_SUCCESS;
 	}
-	FILE *f ;
-	int rc;
 	if(logger==NULL){
 		return SP_LOGGER_UNDIFINED;
 	}
@@ -130,19 +132,19 @@ SP_LOGGER_MSG spLoggerPrintInfo(const char* msg){
 		f = logger->outputChannel;
 	}
 	rc = fprintf(f, "---INFO---\n" );
-	WRITE_ERROR(rc)
+	WRITE_ERROR(rc)			//Checks return value from fprintf()
 	rc = fprintf(f, "- message: %s\n", msg);
-	WRITE_ERROR(rc)
+	WRITE_ERROR(rc)			//Checks return value from fprintf()
 	return SP_LOGGER_SUCCESS;
 }
 
 SP_LOGGER_MSG spLoggerPrintDebug(const char* msg, const char* file,
 		const char* function, const int line){
+	int rc;            //Initialize int variable for fprintf() returning value
+	FILE *f ;
 	if(logger->level!=SP_LOGGER_DEBUG_INFO_WARNING_ERROR_LEVEL){
 		return SP_LOGGER_SUCCESS;
 	}
-	FILE *f ;
-	int rc;
 	if(logger==NULL){
 		return SP_LOGGER_UNDIFINED;
 	}
@@ -164,13 +166,13 @@ SP_LOGGER_MSG spLoggerPrintDebug(const char* msg, const char* file,
 	rc = fprintf(f, "- line: %d\n", line);
 	WRITE_ERROR(rc)
 	rc = fprintf(f, "- message: %s\n", msg);
-	WRITE_ERROR(rc)
+	WRITE_ERROR(rc)			//Checks return value from fprintf()
 	return SP_LOGGER_SUCCESS;
 }
 
 SP_LOGGER_MSG spLoggerPrintMsg(const char* msg){
 	FILE *f ;
-	int rc;
+	int rc;            //Initialize int variable for fprintf() returning value
 	if(logger==NULL){
 		return SP_LOGGER_UNDIFINED;
 	}
@@ -184,7 +186,7 @@ SP_LOGGER_MSG spLoggerPrintMsg(const char* msg){
 		f = logger->outputChannel;
 	}
 	rc = fprintf(f,"%s\n", msg);
-	WRITE_ERROR(rc)
+	WRITE_ERROR(rc)			//Checks return value from fprintf()
 	return SP_LOGGER_SUCCESS;
 
 }
