@@ -75,7 +75,6 @@ static bool basicLoggerDebugTest() {
  * Only Error and Warning Messages Should be printed
  * Compares and Asserts an expected message text file to the logger message text file
  * Use identicalFiles() helper function to compare files
- * Asserts Logger Messages in all different cases
  */
 static bool basicLoggerWarningTest() {
 //Defining messages text files references for comparing printed messages
@@ -95,7 +94,6 @@ static bool basicLoggerWarningTest() {
  * All Messages should be printed except Debug
  * Compares and Asserts an expected message text file to the logger message text file
  * Use identicalFiles() helper function to compare files
- * Asserts Logger Messages in all different cases
  */
 static bool basicLoggerInfoTest() {
 	//Defining messages text files references for comparing printed messages
@@ -126,9 +124,11 @@ static bool basicLoggerMsgTest() {
 	const char* testFile = "basicLoggerMsgTest.log";
 	const char* msg = "Message ERROR Level";  //Expected msg string - will be modified.
 	FILE *f;				         //Creates new file for the expectedFile modifying
+	ASSERT_TRUE(spLoggerCreate("",SP_LOGGER_ERROR_LEVEL) == SP_LOGGER_CANNOT_OPEN_FILE);
 	f=fopen(expectedFile,"w");
 	fprintf(f,"%s\n", msg);		//modifying expectedFile sith relevant message
 	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_ERROR_LEVEL) == SP_LOGGER_SUCCESS);
+	ASSERT_TRUE(spLoggerCreate(testFile,SP_LOGGER_ERROR_LEVEL) == SP_LOGGER_DEFINED); //checks logger already define
 	ASSERT_TRUE(spLoggerPrintMsg(msg) == SP_LOGGER_SUCCESS);
 	ASSERT_TRUE(identicalFiles(testFile,expectedFile));
 	spLoggerDestroy();               //Logger destroy  and Memory Re-Allocation
