@@ -4,10 +4,33 @@
 #include <stdbool.h>
 /**
  * SP Bounded Priority Queue summary
+ * Implements a Bounded Priority Queue with an upper bound on the number of sorted elements.
+ * If the queue is not full, added elements are always added.
+ * If the queue is full and the added element is smaller(value) than the greatest(value) element in the queue,
+ * the greatest element is removed and the new element is added.
+ * If the queue is full and the added element is greater(value) than the greatest(value) element in the queue,
+ * the new element is not added.
+ * If the queue is full and the added element have an equal value to the greatest element value in the queue,
+ * the element with the smallest index will be added/remain in queue.
  *
- * TODO Complete documentation
+ * Queue elements have an int index and a double value.
+ *
+ * The following functions are supported:
+ * spBPQueueCreate        	- Creates an empty queue with a given maximum capacity
+ * spBPQueueCopy			- Creates a copy of a given queue
+ * spBPQueueDestroy 		- Frees all memory allocation associated with the queue
+ * spBPQueueClear			- Removes all the elements in the queue
+ * spBPQueueSize			- Returns the number of elements in the queue
+ * spBPQueueGetMaxSize		- Returns the maximum capacity of the queue
+ * spBPQueueEnqueue			- Inserts a NEW COPY element to the queue
+ * spBPQueueDequeue			- Removes the element with the lowest value
+ * spBPQueuePeek			- Returns a NEW COPY of the element with the lowest value
+ * spBPQueuePeekLast		- Returns a NEW COPY of the element with the highest value
+ * spBPQueueMinValue		- Returns the minimum value in the queue
+ * spBPQueueMaxValue		- Returns the maximum value in the queue
+ * spBPQueueIsEmpty			- Returns true if the queue is empty
+ * spBPQueueIsFull			- Returns true if the queue is full
  */
-
 
 /** type used to define Bounded priority queue **/
 typedef struct sp_bp_queue_t* SPBPQueue;
