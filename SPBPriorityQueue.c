@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
-#define MSG_MACRO { if(msg==SP_LIST_OUT_OF_MEMORY){return SP_BPQUEUE_OUT_OF_MEMORY;} else { return SP_BPQUEUE_SUCCESS; }}
+#define MSG_MACRO { if(msg==SP_LIST_OUT_OF_MEMORY){return SP_BPQUEUE_OUT_OF_MEMORY;} else {return SP_BPQUEUE_SUCCESS; }}
 
 struct sp_bp_queue_t{
 	int maxSize;
@@ -81,25 +81,21 @@ void spBPQsetTailAsCurrent(SPList qlist){
 }
 
 SP_BPQUEUE_MSG spBPQueueEnqueue(SPBPQueue source, SPListElement element){
-	SPListElement copyElement=spListElementCopy(element);
 	if(source==NULL || element==NULL){  //Invalid arg. case
-		spListElementDestroy(copyElement);
 		return SP_BPQUEUE_INVALID_ARGUMENT;
 	}
 	if(spBPQueueIsFull(source)){     //Case of Full BPQ
 		//Case of value(element)>maxVal&Full BPQ
-		if(spListElementGetValue(copyElement)>spBPQueueMaxValue(source)){
-			spListElementDestroy(copyElement);
+		if(spListElementGetValue(element)>spBPQueueMaxValue(source)){
 			return SP_BPQUEUE_FULL;    //Do nothing
 		}
-		else if(spListElementGetValue(copyElement)==spBPQueueMaxValue(source)){
+		else if(spListElementGetValue(element)==spBPQueueMaxValue(source)){
 			spBPQsetTailAsCurrent(source->qList);    //current=tail
 			//Case of identical values, sort with the index
-			if(spListElementGetIndex(copyElement) < spListElementGetIndex(spListGetCurrent(source->qList))){
+			if(spListElementGetIndex(element) < spListElementGetIndex(spListGetCurrent(source->qList))){
 				spListRemoveCurrent(source->qList);
 			}
 			else{
-				spListElementDestroy(copyElement);
 				return SP_BPQUEUE_FULL;
 			}
 		}
@@ -110,33 +106,32 @@ SP_BPQUEUE_MSG spBPQueueEnqueue(SPBPQueue source, SPListElement element){
 	}
 	SP_LIST_MSG msg;
 	//Insert empty BPQ and insert minValue Case.
-	if(spBPQueueIsEmpty(source) || (spListElementGetValue(copyElement)<spBPQueueMinValue(source))){
-		msg=spListInsertFirst(source->qList,copyElement);
+	if(spBPQueueIsEmpty(source) || (spListElementGetValue(element)<spBPQueueMinValue(source))){
+		msg=spListInsertFirst(source->qList,element);
 		MSG_MACRO
 	}
-	if(spListElementGetValue(copyElement)>spBPQueueMaxValue(source)){  //Insert maxVal case
-		msg=spListInsertLast(source->qList,copyElement);
+	if(spListElementGetValue(element)>spBPQueueMaxValue(source)){  //Insert maxVal case
+		msg=spListInsertLast(source->qList,element);
 		MSG_MACRO
 	}
 	spListGetFirst(source->qList);
 	//search new element location
-	while(spListElementGetValue(spListGetCurrent(source->qList))<spListElementGetValue(copyElement)){
+	while(spListElementGetValue(spListGetCurrent(source->qList))<spListElementGetValue(element)){
 		spListGetNext(source->qList);
 	}
 	//Case of identical values, sort with the index
-	if(spListElementGetValue(spListGetCurrent(source->qList))==spListElementGetValue(copyElement)){
-		if(spListElementGetIndex(copyElement) < spListElementGetIndex(spListGetCurrent(source->qList))){
-			msg=spListInsertBeforeCurrent(source->qList,copyElement);
+	if(spListElementGetValue(spListGetCurrent(source->qList))==spListElementGetValue(element)){
+		if(spListElementGetIndex(element) < spListElementGetIndex(spListGetCurrent(source->qList))){
+			msg=spListInsertBeforeCurrent(source->qList,element);
 		}
 		else{
-			msg=spListInsertAfterCurrent(source->qList,copyElement);
+			msg=spListInsertAfterCurrent(source->qList,element);
 		}
 	}
 	else{
-		msg=spListInsertBeforeCurrent(source->qList,copyElement);
+		msg=spListInsertBeforeCurrent(source->qList,element);
 	}
 	MSG_MACRO
-	//return SP_BPQUEUE_OUT_OF_MEMORY;  //Return bug because the macro
 }
 
 SP_BPQUEUE_MSG spBPQueueDequeue(SPBPQueue source){
