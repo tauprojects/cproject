@@ -1,6 +1,4 @@
-![](https://www.arm.com/assets/images/ARM_Logo_Corporate_Blue.png)
 
-###IoT BU
 
 
 **ֲ© Copyright ARM Limited 2016. All rights reserved.**
@@ -146,8 +144,6 @@ Download Factory Tool Archive .zip File
         "request_id": "Request Id Value"        
     }
 
-http://confluence.arm.com/display/IoTBU/Response+Codes+and+Types
-
 
 - **200 success** ג€” Download relevant zip file.
 - **400 validation error** ג€” {ג€�messageג€�: ג€�one of parameter is invalid: $osג€�}
@@ -170,7 +166,7 @@ http://confluence.arm.com/display/IoTBU/Response+Codes+and+Types
 ----
 ####Build and test the Factory Tool Download Server using gradle with docker-compose:
     
-    $ git clone https://github.com/ARMmbed/provisioning.git
+    $ git clone 
     $ cd servers/factory-tool-download/    
     $ ../../gradlew 
 For authorization testing purpose the project contains a stub IAM service.
